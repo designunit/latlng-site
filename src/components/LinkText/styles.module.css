@@ -1,9 +1,10 @@
 .linkStyle {
     text-decoration-line: underline;
-
     color: var(--color-primary);
+    font-size: 1.2rem;
 }
 
 .linkStyle:hover {
+    text-decoration-line: line-through;
     color: var(--color-hover);
 }

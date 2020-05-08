@@ -49,7 +49,11 @@ const Index: NextPage = props => {
                         </LinkText>
                     </LinkContainer>
                     </div>
-                    <div style={{flex: '1 0 50%', textAlign: 'end'}} >
+                    <div style={{
+                        flex: '1 0 50%', 
+                        textAlign: 'end', 
+                        alignSelf: 'flex-end',
+                    }} >
                         <LinkContainer url=''>
                             <LinkText>
                                 info@unit4.io
@@ -104,9 +108,10 @@ const Index: NextPage = props => {
                             </div>
                         )}
                         rightContent={(
-                            <img src='/static/videoPlaceholder.jpg' 
+                            <img src='/static/cross.svg' 
                                 style={{
                                     width: '100%',
+                                    height: '480px',
                                 }}
                             />
                         )}
@@ -138,9 +143,10 @@ const Index: NextPage = props => {
                             </div>
                         )}
                         rightContent={(
-                            <img src='/static/videoPlaceholder.jpg' 
+                            <img src='/static/cross.svg' 
                                 style={{
                                     width: '100%',
+                                    height: '480px',
                                 }}
                             />
                         )}
@@ -172,11 +178,146 @@ const Index: NextPage = props => {
                             </div>
                         )}
                         rightContent={(
-                            <img src='/static/videoPlaceholder.jpg' 
+                            <img src='/static/cross.svg' 
                                 style={{
                                     width: '100%',
+                                    height: '480px',
                                 }}
                             />
+                        )}
+                    />
+                </Section>
+            
+                {/* SSbILKI */}
+                <Section>
+                    <Ratio
+                        left={6}
+                        right={3}
+                        spacer={1}
+                        leftContent={(
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+
+                                height: '100%',
+                                justifyContent: 'space-between'
+                            }}>
+                                <LinkContainer url='' >
+                                    <LinkText>
+                                        Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                    </LinkText>
+                                </LinkContainer>
+                                <LinkContainer url='' >
+                                    <LinkText>
+                                        Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                    </LinkText>
+                                </LinkContainer>
+                                <LinkContainer url='' >
+                                    <LinkText>
+                                        Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                    </LinkText>
+                                </LinkContainer>
+                                <LinkContainer url='' >
+                                    <LinkText>
+                                        Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                    </LinkText>
+                                </LinkContainer>
+                            </div>
+                        )}
+                        rightContent={(
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                
+                                height: '100%',
+                                justifyContent: 'space-between',
+                                marginBottom: '-10%'
+                            }}>
+                                <LinkContainer url='' >
+                                    <div style={{
+                                        width: '100%',
+                                        height: '300px',
+                                        padding: '5%',
+                                        marginBottom: '10%',
+
+                                        backgroundImage: 'url(/static/cross.svg)',
+                                        
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                        <h2>
+                                            Oyamikon
+                                        </h2>  
+
+                                        <Highlighted style={{
+                                            marginLeft: '-5%',
+                                            width: 'min-content',
+                                        }}>
+                                            СТРЕЛОЧКА
+                                        </Highlighted>
+
+                                        <div />
+                                    </div>
+                                </LinkContainer>
+                                
+                                <LinkContainer url='' >
+                                    <div style={{
+                                        width: '100%',
+                                        height: '300px',
+                                        padding: '5%',
+                                        marginBottom: '10%',
+
+                                        backgroundImage: 'url(/static/cross.svg)',
+                                        
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                        <h2>
+                                            Oyamikon
+                                        </h2>  
+
+                                        <Highlighted style={{
+                                            marginLeft: '-5%',
+                                            width: 'min-content',
+                                        }}>
+                                            СТРЕЛОЧКА
+                                        </Highlighted>
+
+                                        <div />
+                                    </div>
+                                </LinkContainer>
+                                
+                                <LinkContainer url='' >
+                                    <div style={{
+                                        width: '100%',
+                                        height: '300px',
+                                        padding: '5%',
+                                        marginBottom: '10%',
+
+                                        backgroundImage: 'url(/static/cross.svg)',
+                                        
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                        <h2>
+                                            Oyamikon
+                                        </h2>  
+
+                                        <Highlighted style={{
+                                            marginLeft: '-5%',
+                                            width: 'min-content',
+                                        }}>
+                                            СТРЕЛОЧКА
+                                        </Highlighted>
+
+                                        <div />
+                                    </div>
+                                </LinkContainer>
+                                
+                            </div>
                         )}
                     />
                 </Section>
