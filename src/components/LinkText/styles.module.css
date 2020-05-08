@@ -1,0 +1,9 @@
+.linkStyle {
+    text-decoration-line: underline;
+
+    color: var(--color-primary);
+}
+
+.linkStyle:hover {
+    color: var(--color-hover);
+}
