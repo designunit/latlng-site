@@ -252,7 +252,7 @@ const Index: NextPage = props => {
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'min-content',
+                                            width: 'fit-content',
                                         }}>
                                             СТРЕЛОЧКА
                                         </Highlighted>
@@ -275,14 +275,14 @@ const Index: NextPage = props => {
                                         justifyContent: 'space-between',
                                     }}>
                                         <h2>
-                                            Oyamikon
+                                            Yrai - HMAO
                                         </h2>  
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'min-content',
+                                            width: 'fit-content',
                                         }}>
-                                            СТРЕЛОЧКА
+                                            -->
                                         </Highlighted>
 
                                         <div />
@@ -303,12 +303,12 @@ const Index: NextPage = props => {
                                         justifyContent: 'space-between',
                                     }}>
                                         <h2>
-                                            Oyamikon
+                                            Pitkäranta
                                         </h2>  
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'min-content',
+                                            width: 'fit-content',
                                         }}>
                                             СТРЕЛОЧКА
                                         </Highlighted>
