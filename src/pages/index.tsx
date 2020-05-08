@@ -112,6 +112,7 @@ const Index: NextPage = props => {
                                 style={{
                                     width: '100%',
                                     height: '480px',
+                                    border: 'solid 2px white',
                                 }}
                             />
                         )}
@@ -147,6 +148,7 @@ const Index: NextPage = props => {
                                 style={{
                                     width: '100%',
                                     height: '480px',
+                                    border: 'solid 2px white',
                                 }}
                             />
                         )}
@@ -182,6 +184,7 @@ const Index: NextPage = props => {
                                 style={{
                                     width: '100%',
                                     height: '480px',
+                                    border: 'solid 2px white',
                                 }}
                             />
                         )}
@@ -241,6 +244,7 @@ const Index: NextPage = props => {
                                         marginBottom: '10%',
 
                                         backgroundImage: 'url(/static/cross.svg)',
+                                        border: 'solid 2px white',
                                         
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -269,6 +273,7 @@ const Index: NextPage = props => {
                                         marginBottom: '10%',
 
                                         backgroundImage: 'url(/static/cross.svg)',
+                                        border: 'solid 2px white',
                                         
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -297,6 +302,7 @@ const Index: NextPage = props => {
                                         marginBottom: '10%',
 
                                         backgroundImage: 'url(/static/cross.svg)',
+                                        border: 'solid 2px white',
                                         
                                         display: 'flex',
                                         flexDirection: 'column',
