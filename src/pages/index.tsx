@@ -4,6 +4,7 @@ import { LinkContainer } from "../components/LinkContainer"
 import { LinkText } from "../components/LinkText"
 import { Ratio } from "../components/Ratio"
 import { Highlighted } from "../components/Highlighted"
+import { Zalipuha } from "../components/Zalipuha"
 
 const Index: NextPage = props => {
     return (
@@ -12,7 +13,8 @@ const Index: NextPage = props => {
                 position: 'absolute',
                 right: 0,
             }}>
-                <img src='/static/ZalipuhaPreview.png' />
+                {/* <img src='/static/ZalipuhaPreview.png' /> */}
+                <Zalipuha />
             </div>
             <main style={{  position: 'relative' }}>
 
