@@ -11,9 +11,12 @@ const Index: NextPage = props => {
         <>
             <div style={{
                 position: 'absolute',
-                right: 0,
+                left: '20%',
+                top: '-50%',
+                overflow: 'hidden',
+                maxWidth: '80%', // 100 - left
+                zIndex: 1,
             }}>
-                {/* <img src='/static/ZalipuhaPreview.png' /> */}
                 <Zalipuha />
             </div>
             <main style={{  position: 'relative' }}>
