@@ -4,35 +4,37 @@ import { useRafLoop } from 'react-use'
 
 interface ZalipuhaProps {
     mouse: number
+    rotation: number
+    setRotation: (rotation: number) => void
 }
 
-export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
+export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...props }) => {
     const refCanvas = useRef(null)
 
     const points = [
-        [92.73155090832148, 47.16596893825039],
-        [19.132628654502923, 35.039348548331574],
-        [37.31543475729569, 34.46056229374538],
-        [-20.765518244299386, 43.338006534457236],
-        [-31.443787532690408, -59.69168193662301],
-        [118.22862289917595, 17.99353267630819],
-        [-158.9689380119718, -62.27347567250755],
-        [92.28875715411232, 44.109642767772044],
-        [119.95772833109527, -12.797784283319075],
-        [-161.8430884240895, 51.64504746943459],
-        [-149.1741307823769, 16.682015994228635],
-        [88.00745075566459, 33.88691278199536],
-        [59.40336125781505, 25.547842245365388],
-        [155.7874150155539, -22.107449819512468],
-        [-35.04694841793901, -47.85976618463772],
-        [172.15360096273315, 84.1934940963882],
-        [-100.52373469077385, 86.45006869090278],
-        [128.5351509152004, -10.060852009035841],
-        [-111.30435268403878, 37.66299870594008],
-        [178.10492208929008, 40.61821469473912]
-    ]
+        [-12.471514065069812, 29.96032823460071],
+        [-66.14344941751239, -33.78218055874478],
+        [-163.20801211427406, 75.19405530640374],
+        [-60.1468537118777, 31.68887138113911],
+        [98.919861719307818, 14.327280220478983],
+        [19.505171745122794, 68.34049434153212],
+        [112.2117919210032, -28.50740286402985],
+        [-180.72891972601244, 18.236456875202094],
+        [-144.70567276094468, 58.757649149605925],
+        [16.677754391339704, 23.15973160196448],
+        [113.39126029072082, 23.943962457354814],
+        [34.53401051124965, -35.26060695811529],
+        [-54.89336410836961, 7.03808627812122],
+        [167.93694930066998, -7.75296599062257],
+        [50.24396406944393, 30.558119182431568],
+        [-136.37355654473666, -18.713657944900017],
+        [88.72475330521985, 10.451665787038394],
+        [72.42099035441424, -29.84503313630067],
+        [-92.40387452005182, 20.1722585434017],
+        [154.88855888496272, -45.3358210847797],
+    ].sort((a,b) => a[0] - b[0])
 
-    const data = points.map(x => '/static/cat.png')
+    const data = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(data.map(() => useRef(null))) // ref[]
 
     const [width, setWidth] = useState<number>()
@@ -50,16 +52,13 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
 
     const colorSecondary = '#BB86FC'
     const colorPrimary = '#03DAC5'
-    const font = '14px Roboto Mono'
-
-    const [rotation, setRotation] = useState(0)
 
     const [stop, start, isActive] = useRafLoop(time => {
         mouse === null
-            ? setRotation(rotation + .2 % 360)
+            ? setRotation(rotation + .05 % 360)
             : setRotation(rotation + mouse)
 
-        projection.rotate([rotation, -33, 15]) // animate + rotate 
+        projection.rotate([rotation, -33, 15]) // animate + rotate
 
         const context = refCanvas.current.getContext('2d') // CanvasRenderingContext2D
         const path = geoPath(projection, context)
@@ -72,17 +71,19 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
         // @ts-ignore
         projection.reflectX(true).rotate([r[0] + 180 , -r[1], -r[2]])
 
+        path.pointRadius(3)
+
         // draw back wireframe
         context.beginPath()
         path(wirframe)
         context.lineWidth = .5
-        context.strokeStyle = `${colorSecondary}88`
+        context.strokeStyle = `${colorSecondary}44`
         context.stroke()
 
         // draw points back
         context.beginPath()
         path({type: "MultiPoint", coordinates: points})
-        context.fillStyle = `${colorSecondary}88`
+        context.fillStyle = `${colorSecondary}44`
         context.fill()
 
         // project as front layer
@@ -93,20 +94,20 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
         context.beginPath()
         path({type: 'Sphere'})
         context.lineWidth = 1 
-        context.strokeStyle = colorSecondary
+        context.strokeStyle = `${colorSecondary}88`
         context.stroke()
 
         // draw points front
         context.beginPath()
         path({type: "MultiPoint", coordinates: points})
-        context.fillStyle = colorSecondary
+        context.fillStyle = `${colorSecondary}88`
         context.fill()
 
         // draw front wireframe
         context.beginPath()
         path(wirframe)
         context.lineWidth = 1 
-        context.strokeStyle = colorSecondary
+        context.strokeStyle = `${colorSecondary}88`
         context.stroke()
 
         points.map((coords, index) => {
@@ -117,11 +118,11 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
             context.moveTo(...cursor)
             cursor = [cursor[0], cursor[1] - 40]
             context.lineTo(...cursor)
-            context.strokeStyle = colorPrimary
+            context.strokeStyle = `${colorPrimary}88`
             context.stroke()
 
             // big rect
-            context.fillStyle = `${colorPrimary}88`
+            context.fillStyle = `${colorPrimary}44`
             context.fillRect(...cursor, 200, -60)
             context.strokeRect(...cursor, 200, -60)
 
@@ -129,11 +130,14 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
             cursor = [cursor[0] + 5 + 25, cursor[1] - 5 - 25] // cursor + padding + radius
             context.moveTo(...cursor)
             context.arc(...cursor, 25, 0, Math.PI*2)
-            context.strokeStyle = colorPrimary
+            context.strokeStyle = `${colorPrimary}88`
             context.stroke()
             
+            context.arc(...cursor, 25, 0, Math.PI*2)
+            context.arc(...cursor, 23, 0, Math.PI*2)
+            
             context.save()
-            context.clip()
+            context.clip('evenodd')
             cursor = [cursor[0] - 25, cursor[1] + 25] // move to top left of avatar
             context.drawImage(refCats.current[index].current, ...cursor, 50, -50)
             context.restore()
@@ -146,35 +150,40 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse }) => {
             context.fillRect(...cursor, 90, 10)
 
             // text second row
-            cursor = [cursor[0] - 45, cursor[1] + 15]
+            cursor = [cursor[0] - 45, cursor[1] + 13]
             context.fillRect(...cursor, 35/2, 5)
             cursor = [cursor[0] + 35/2 + 5, cursor[1]]
             context.fillRect(...cursor, 35/2, 5)
 
             // text long rows
-            cursor = [cursor[0] - 35/2 - 5, cursor[1] + 10]
+            cursor = [cursor[0] - 35/2 - 5, cursor[1] + 8]
             for (let i = 0; i < 4; i++) {
-                context.fillRect(...cursor, 135, 4)
-                cursor = [cursor[0], cursor[1] + 7]                                
+                context.fillRect(...cursor, 135, 5)
+                cursor = [cursor[0], cursor[1] + 8]                                
             }
+
+            // context.font = '20px Roboto Mono'
+            // context.fillText(coords, ...cursor.map(x => x+20))
+            // context.fillText(projection(coords as [number, number]), ...cursor.map(x => x+50))
         })
     })
     
     return (
         <>
-        {data.map((item, index) => { // render images to assign refCats
-            return (
-                <img 
-                    ref={refCats.current[index]} 
-                    src={item}
-                    style={{ display: 'none' }}
-                />
-            )
-        })}
-        <canvas ref={refCanvas}
-            width={width}
-            height={height}
-        ></canvas>
+            {data.map((item, index) => { // render images to assign refCats
+                return (
+                    <img 
+                        key={index}
+                        ref={refCats.current[index]} 
+                        src={item}
+                        style={{ display: 'none' }}
+                    />
+                )
+            })}
+            <canvas ref={refCanvas}
+                width={width}
+                height={height}
+            ></canvas>
         </>
     )
 }

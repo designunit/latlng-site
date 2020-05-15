@@ -9,8 +9,11 @@ import { Zalipuha } from '../components/Zalipuha'
 
 const Index: NextPage = props => {
 
+    const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const mouseSpeed = .1
+    
+    const [mousePos, setMousePos] = useState<[number, number]>(null)
 
     return (
         <>
@@ -23,6 +26,8 @@ const Index: NextPage = props => {
             }}>
                 <Zalipuha 
                     mouse={mouse}
+                    rotation={rotation}
+                    setRotation={setRotation}
                 />
             </div>
             <main style={{
@@ -32,8 +37,8 @@ const Index: NextPage = props => {
                 alignItems: 'center',
             }}>
 
-                {/* HERO */}
-                <div style={{ // container tofor zalipuha interaction 
+                {/* container for zalipuha interaction  */}
+                <div style={{
                     width: '100%',
                     height: '100%',
                     
@@ -42,45 +47,66 @@ const Index: NextPage = props => {
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
-                    onMouseDown={() => {
+                    onMouseDown={event => {
                         setMouse(0)
+                    }}
+                    onMouseUp={event => {
+                        setMouse(null)
                     }}
                     onMouseMove={event => {
                         const eventDelta = event.movementX * mouseSpeed
                         event.buttons === 1
                             ? setMouse(Math.abs(eventDelta - mouse) < 1 ? 0 : eventDelta)
                             : setMouse(null)
+                        setMousePos([event.clientX, event.clientY])
                     }}
                     onMouseLeave={() => setMouse(null)}
                 >
+                    {/* HERO */}
                     <Section style={{
                         height: '100vh',
                         width: '100%',
                         flexDirection: 'row',
                         flexWrap: 'wrap',
                         alignContent: 'space-between',
+                        userSelect: 'none',
                     }}>
-                        <h1 style={{flex: '1 0 50%'}}>
+                        <h1 style={{
+                            flex: '1 0 50%',
+                            userSelect: 'text',
+                        }}>
                             LATL.NG <br/>
                             cloud geoinformation system
                         </h1>
-                        <div style={{flex: '1 0 50%'}} />
+                        <div style={{
+                            flex: '1 0 50%',
+                            textAlign: 'end', 
+                            alignSelf: 'flex-end',
+                            userSelect: 'text',
+                        }}>
+                            angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
+                            speed: {(mouse ?? .05).toFixed(4)} <br/>
+                            cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
+                            cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
+                        </div>
                         <div style={{
                             flex: '1 0 50%',
                             display: 'flex',
-                            flexDirection: 'column',                        
+                            flexDirection: 'column',      
+                            alignItems: 'end',      
+                            userSelect: 'text',            
                         }} > 
-                        <LinkContainer url=''>
+                        <LinkContainer url='#about'>
                             <LinkText>
                                 what is latl.ng?
                             </LinkText>
                         </LinkContainer>
-                        <LinkContainer url=''>
+                        <LinkContainer url='#plushki'>
                             <LinkText>
                                 fichers and cuties
                             </LinkText>
                         </LinkContainer>
-                        <LinkContainer url=''>
+                        <LinkContainer url='#examples'>
                             <LinkText>
                                 work examples
                             </LinkText>
@@ -90,32 +116,35 @@ const Index: NextPage = props => {
                             flex: '1 0 50%', 
                             textAlign: 'end', 
                             alignSelf: 'flex-end',
+                            userSelect: 'text',
                         }} >
-                            <LinkContainer url=''>
+                            <LinkContainer url='mailto:inbox@unit4.io'>
                                 <LinkText>
-                                    info@unit4.io
+                                    inbox@unit4.io
                                 </LinkText>
                             </LinkContainer>
                         </div>
                     </Section>
+
+                    {/* ABOUT */}
+                    <span id='about' />
+                    <Section>
+                        <Ratio
+                            left={7}
+                            right={3}
+                            leftContent={(
+                                <>
+                                    Открытая интерактивная карта позволяет в реальном времени картировать информацию в короткие сроки за счет привлечения местных команд волонтеров. <Highlighted>Алгоритмы обработки данных позволяют</Highlighted> выявить <Highlighted>форматы и сценарии использования,</Highlighted> устоявшиеся практики и аудитории. Сервис позволяет жителям самостоятельно вносить информацию о городских объектах. Горожане сами картируют свои ценности и видят ценности других горожан.
+                                    <br/><br/>
+                                    Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города <Highlighted>в задаваемом временном промежутке</Highlighted> для различных способов и средств передвижения. Встроенные алгоритмы обработки данных позволяют в реальном времени анализировать собранную информацию и визуализирировать ее в понятных графиках, схемах
+                                </>
+                            )}
+                        />
+                    </Section>
                 </div>
 
-                {/* ABOUT */}
-                <Section>
-                    <Ratio
-                        left={7}
-                        right={3}
-                        leftContent={(
-                            <>
-                                Открытая интерактивная карта позволяет в реальном времени картировать информацию в короткие сроки за счет привлечения местных команд волонтеров. <Highlighted>Алгоритмы обработки данных позволяют</Highlighted> выявить <Highlighted>форматы и сценарии использования,</Highlighted> устоявшиеся практики и аудитории. Сервис позволяет жителям самостоятельно вносить информацию о городских объектах. Горожане сами картируют свои ценности и видят ценности других горожан.
-                                <br/><br/>
-                                Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города <Highlighted>в задаваемом временном промежутке</Highlighted> для различных способов и средств передвижения. Встроенные алгоритмы обработки данных позволяют в реальном времени анализировать собранную информацию и визуализирировать ее в понятных графиках, схемах
-                            </>
-                        )}
-                    />
-                </Section>
-
                 {/* PLUSHKEEE */}
+                <span id='plushki' />
                 <Section>
                     <Ratio
                         left={3}
@@ -227,8 +256,9 @@ const Index: NextPage = props => {
                         )}
                     />
                 </Section>
-            
-                {/* LINKS */}
+
+                {/* EXAMPLES */}
+                <span id='examples' />
                 <Section>
                     <Ratio
                         left={6}
@@ -252,21 +282,28 @@ const Index: NextPage = props => {
                                 <div style={{ marginBottom: '10%' }}>
                                     <LinkContainer url='' >
                                         <LinkText>
-                                            Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                            Веб-сервис визуализации пользовательских данных (в рамках предпроектного исследования открытых городских пространств г. Урай, ХМАО 2019)
                                         </LinkText>
                                     </LinkContainer>
                                 </div>
                                 <div style={{ marginBottom: '10%' }}>
                                     <LinkContainer url='' >
                                         <LinkText>
-                                            Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                            Веб-сервис картирования стационарных активностей (в рамках предпроектного исследования открытых городских пространств г. Краснокамск 2019)
                                         </LinkText>
                                     </LinkContainer>
                                 </div>
                                 <div style={{ marginBottom: '10%' }}>
                                     <LinkContainer url='' >
                                         <LinkText>
-                                            Сервис картирования ценных мест для развития туризма (в рамках разработки стратегии развития Оймяконского улуса, Республика Саха 2019)
+                                            Интерактивная карта городских данных (в рамках предпроектного исследования г. Волоколамск, г. Нягань, г. Краснокамск 2019)
+                                        </LinkText>
+                                    </LinkContainer>
+                                </div>
+                                <div style={{ marginBottom: '10%' }}>
+                                    <LinkContainer url='' >
+                                        <LinkText>
+                                            Веб-сервис сбора идей и предложений жителей инструмент вовлечения жителей (в рамках социокультурного исследования г. Питкяранта, г. Урай 2020)
                                         </LinkText>
                                     </LinkContainer>
                                 </div>
@@ -278,13 +315,12 @@ const Index: NextPage = props => {
                                 flexDirection: 'column',
                                 
                                 height: '100%',
-                                justifyContent: 'space-between',
                                 marginBottom: '-10%'
                             }}>
                                 <LinkContainer url='' >
                                     <div style={{
                                         width: '100%',
-                                        height: '300px',
+                                        height: '250px',
                                         padding: '5%',
                                         marginBottom: '10%',
 
@@ -301,11 +337,10 @@ const Index: NextPage = props => {
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'fit-content',
+                                            width: 'fit-content', 
+                                            fontSize: '1.2rem',
                                         }}>
-                                            <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                                                -->
-                                            </span>
+                                            -->
                                         </Highlighted>
 
                                         <div />
@@ -315,7 +350,7 @@ const Index: NextPage = props => {
                                 <LinkContainer url='' >
                                     <div style={{
                                         width: '100%',
-                                        height: '300px',
+                                        height: '250px',
                                         padding: '5%',
                                         marginBottom: '10%',
 
@@ -332,11 +367,10 @@ const Index: NextPage = props => {
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'fit-content',
+                                            width: 'fit-content', 
+                                            fontSize: '1.2rem',
                                         }}>
-                                            <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                                                -->
-                                            </span>
+                                            -->
                                         </Highlighted>
 
                                         <div />
@@ -346,7 +380,7 @@ const Index: NextPage = props => {
                                 <LinkContainer url='' >
                                     <div style={{
                                         width: '100%',
-                                        height: '300px',
+                                        height: '250px',
                                         padding: '5%',
                                         marginBottom: '10%',
 
@@ -363,11 +397,10 @@ const Index: NextPage = props => {
 
                                         <Highlighted style={{
                                             marginLeft: '-5%',
-                                            width: 'fit-content',
+                                            width: 'fit-content', 
+                                            fontSize: '1.2rem',
                                         }}>
-                                            <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                                                -->
-                                            </span>
+                                            -->
                                         </Highlighted>
 
                                         <div />
