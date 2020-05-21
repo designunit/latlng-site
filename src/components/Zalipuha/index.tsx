@@ -20,7 +20,7 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
         [19.505171745122794, 68.34049434153212],
         [112.2117919210032, -28.50740286402985],
         [-180.72891972601244, 18.236456875202094],
-        [-144.70567276094468, 58.757649149605925],
+        [-144.70567276094468, 42.757649149605925],
         [16.677754391339704, 23.15973160196448],
         [113.39126029072082, 23.943962457354814],
         [34.53401051124965, -35.26060695811529],
@@ -60,7 +60,7 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
 
         projection.rotate([rotation, -33, 15]) // animate + rotate
 
-        const context = refCanvas.current.getContext('2d') // CanvasRenderingContext2D
+        const context = refCanvas.current.getContext('2d')
         const path = geoPath(projection, context)
 
         context.clearRect(0, 0, width, height)
@@ -127,7 +127,7 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
             context.strokeRect(...cursor, 200, -60)
 
             // avatar
-            cursor = [cursor[0] + 5 + 25, cursor[1] - 5 - 25] // cursor + padding + radius
+            cursor = [cursor[0] + 5 + 25, cursor[1] - 5 - 25]
             context.moveTo(...cursor)
             context.arc(...cursor, 25, 0, Math.PI*2)
             context.strokeStyle = `${colorPrimary}88`
@@ -138,12 +138,12 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
             
             context.save()
             context.clip('evenodd')
-            cursor = [cursor[0] - 25, cursor[1] + 25] // move to top left of avatar
+            cursor = [cursor[0] - 25, cursor[1] + 25]
             context.drawImage(refCats.current[index].current, ...cursor, 50, -50)
             context.restore()
 
             // text rects
-            cursor = [cursor[0] + 55, cursor[1] - 50] // move to top left text
+            cursor = [cursor[0] + 55, cursor[1] - 50]
             context.fillRect(...cursor, 40, 10)
 
             cursor = [cursor[0] + 45, cursor[1] - 0]
@@ -170,16 +170,14 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
     
     return (
         <>
-            {data.map((item, index) => { // render images to assign refCats
-                return (
-                    <img 
-                        key={index}
-                        ref={refCats.current[index]} 
-                        src={item}
-                        style={{ display: 'none' }}
-                    />
-                )
-            })}
+            {data.map((item, index) => ( // render images to assign refCats
+                <img 
+                    key={index}
+                    ref={refCats.current[index]} 
+                    src={item}
+                    style={{ display: 'none' }}
+                />
+            ))}
             <canvas ref={refCanvas}
                 width={width}
                 height={height}

@@ -4,14 +4,22 @@ import { LinkContainer } from '../components/LinkContainer'
 import { LinkText } from '../components/LinkText'
 import { Ratio } from '../components/Ratio'
 import { Highlighted } from '../components/Highlighted'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Zalipuha } from '../components/Zalipuha'
 
 const Index: NextPage = props => {
-
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const mouseSpeed = .1
+    const setMouseNull = useCallback(event => setMouse(null), [])
+    const setMouseZero = useCallback(event => setMouse(0), [])
+    const onMouseMove = useCallback(event => {
+        const eventDelta = event.movementX * mouseSpeed
+        event.buttons === 1
+            ? setMouse(Math.abs(eventDelta - mouse) < 0 ? 0 : eventDelta)
+            : setMouse(null)
+        setMousePos([event.clientX, event.clientY])
+    }, [mouse])
     
     const [mousePos, setMousePos] = useState<[number, number]>(null)
 
@@ -36,7 +44,6 @@ const Index: NextPage = props => {
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-
                 {/* container for zalipuha interaction  */}
                 <div style={{
                     width: '100%',
@@ -47,20 +54,10 @@ const Index: NextPage = props => {
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
-                    onMouseDown={event => {
-                        setMouse(0)
-                    }}
-                    onMouseUp={event => {
-                        setMouse(null)
-                    }}
-                    onMouseMove={event => {
-                        const eventDelta = event.movementX * mouseSpeed
-                        event.buttons === 1
-                            ? setMouse(Math.abs(eventDelta - mouse) < 1 ? 0 : eventDelta)
-                            : setMouse(null)
-                        setMousePos([event.clientX, event.clientY])
-                    }}
-                    onMouseLeave={() => setMouse(null)}
+                    onMouseDown={setMouseZero}
+                    onMouseUp={setMouseNull}
+                    onMouseMove={onMouseMove}
+                    onMouseLeave={setMouseNull}
                 >
                     {/* HERO */}
                     <Section style={{
