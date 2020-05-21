@@ -6,6 +6,7 @@ import { Ratio } from '../components/Ratio'
 import { Highlighted } from '../components/Highlighted'
 import { useState, useCallback } from 'react'
 import { Zalipuha } from '../components/Zalipuha'
+import { useMedia } from 'react-use'
 
 const Index: NextPage = props => {
     const [rotation, setRotation] = useState(0)
@@ -23,12 +24,14 @@ const Index: NextPage = props => {
     
     const [mousePos, setMousePos] = useState<[number, number]>(null)
 
+    const isMobile = useMedia('(max-width: 768px)', true)
+
     return (
         <>
             <div style={{
                 position: 'absolute',
                 left: '20%',
-                top: '-50%',
+                top: isMobile ? '0' : '-50%',
                 overflow: 'hidden',
                 maxWidth: '80%', // 100 - left
             }}>
@@ -75,34 +78,36 @@ const Index: NextPage = props => {
                             LATL.NG <br/>
                             cloud geoinformation system
                         </h1>
-                        <div style={{
-                            flex: '1 0 50%',
-                            textAlign: 'end', 
-                            alignSelf: 'flex-end',
-                            userSelect: 'text',
-                        }}>
-                            angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
-                            speed: {(mouse ?? .05).toFixed(4)} <br/>
-                            cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
-                            cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
-                        </div>
+                        {isMobile ? null : (
+                            <div style={{
+                                flex: '1 0 50%',
+                                textAlign: 'end', 
+                                alignSelf: 'flex-end',
+                                userSelect: 'text',
+                            }}>
+                                angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
+                                speed: {(mouse ?? .05).toFixed(4)} <br/>
+                                cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
+                                cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
+                            </div>
+                        )}
                         <div style={{
                             flex: '1 0 50%',
                             display: 'flex',
                             flexDirection: 'column',      
                             alignItems: 'end',      
                             userSelect: 'text',            
-                        }} > 
+                        }}> 
                         <LinkContainer url='#about'>
                             <LinkText>
                                 what is latl.ng?
                             </LinkText>
                         </LinkContainer>
-                        <LinkContainer url='#plushki'>
+                        {/* <LinkContainer url='#plushki'>
                             <LinkText>
                                 fichers and cuties
                             </LinkText>
-                        </LinkContainer>
+                        </LinkContainer> */}
                         <LinkContainer url='#examples'>
                             <LinkText>
                                 work examples
@@ -141,118 +146,120 @@ const Index: NextPage = props => {
                 </div>
 
                 {/* PLUSHKEEE */}
-                <span id='plushki' />
-                <Section>
-                    <Ratio
-                        left={3}
-                        right={6}
-                        spacer={1}
-                        style={{
-                            padding: '5% 0',
-                        }}
-                        leftContent={(
-                            <div style={{
-                                height: '100%',
+                {true ? null : (<>
+                    <span id='plushki' />
+                    <Section>
+                        <Ratio
+                            left={3}
+                            right={6}
+                            spacer={1}
+                            style={{
+                                padding: '5% 0',
+                            }}
+                            leftContent={(
+                                <div style={{
+                                    height: '100%',
 
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
 
-                                padding: '10% 0',
+                                    padding: '10% 0',
 
-                                textAlign: 'end',
-                            }}>
-                                <h2>
-                                    toolkit <br/>
-                                    for social data <br/>
-                                    collection
-                                </h2>
-                                Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
-                            </div>
-                        )}
-                        rightContent={(
-                            <img src='/static/cross.svg' 
-                                style={{
-                                    width: '100%',
-                                    height: '480px',
-                                    border: 'solid 2px white',
-                                }}
-                            />
-                        )}
-                    />
-                    <Ratio
-                        left={3}
-                        right={6}
-                        spacer={1}
-                        style={{
-                            padding: '5% 0',
-                        }}
-                        leftContent={(
-                            <div style={{
-                                height: '100%',
+                                    textAlign: 'end',
+                                }}>
+                                    <h2>
+                                        toolkit <br/>
+                                        for social data <br/>
+                                        collection
+                                    </h2>
+                                    Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
+                                </div>
+                            )}
+                            rightContent={(
+                                <img src='/static/cross.svg' 
+                                    style={{
+                                        width: '100%',
+                                        height: '480px',
+                                        border: 'solid 2px white',
+                                    }}
+                                />
+                            )}
+                        />
+                        <Ratio
+                            left={3}
+                            right={6}
+                            spacer={1}
+                            style={{
+                                padding: '5% 0',
+                            }}
+                            leftContent={(
+                                <div style={{
+                                    height: '100%',
 
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
 
-                                padding: '10% 0',
+                                    padding: '10% 0',
 
-                                textAlign: 'end',
-                            }}>
-                                <h2>
-                                urban data <br/>
-                                mapping tool
-                                </h2>
-                                Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
-                            </div>
-                        )}
-                        rightContent={(
-                            <img src='/static/cross.svg' 
-                                style={{
-                                    width: '100%',
-                                    height: '480px',
-                                    border: 'solid 2px white',
-                                }}
-                            />
-                        )}
-                    />
-                    <Ratio
-                        left={3}
-                        right={6}
-                        spacer={1}
-                        style={{
-                            padding: '5% 0',
-                        }}
-                        leftContent={(
-                            <div style={{
-                                height: '100%',
+                                    textAlign: 'end',
+                                }}>
+                                    <h2>
+                                    urban data <br/>
+                                    mapping tool
+                                    </h2>
+                                    Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
+                                </div>
+                            )}
+                            rightContent={(
+                                <img src='/static/cross.svg' 
+                                    style={{
+                                        width: '100%',
+                                        height: '480px',
+                                        border: 'solid 2px white',
+                                    }}
+                                />
+                            )}
+                        />
+                        <Ratio
+                            left={3}
+                            right={6}
+                            spacer={1}
+                            style={{
+                                padding: '5% 0',
+                            }}
+                            leftContent={(
+                                <div style={{
+                                    height: '100%',
 
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
 
-                                padding: '10% 0',
+                                    padding: '10% 0',
 
-                                textAlign: 'end',
-                            }}>
-                                <h2>
-                                data <br/>
-                                visualization
-                                </h2>
-                                Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
-                            </div>
-                        )}
-                        rightContent={(
-                            <img src='/static/cross.svg' 
-                                style={{
-                                    width: '100%',
-                                    height: '480px',
-                                    border: 'solid 2px white',
-                                }}
-                            />
-                        )}
-                    />
-                </Section>
+                                    textAlign: 'end',
+                                }}>
+                                    <h2>
+                                    data <br/>
+                                    visualization
+                                    </h2>
+                                    Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города в задаваемом временном промежутке для различных способов и средств передвижения.
+                                </div>
+                            )}
+                            rightContent={(
+                                <img src='/static/cross.svg' 
+                                    style={{
+                                        width: '100%',
+                                        height: '480px',
+                                        border: 'solid 2px white',
+                                    }}
+                                />
+                            )}
+                        />
+                    </Section>
+                </>) }
 
                 {/* EXAMPLES */}
                 <span id='examples' />

@@ -1,6 +1,6 @@
 import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo'
 import { useRef, useEffect, useState } from 'react'
-import { useRafLoop } from 'react-use'
+import { useRafLoop, useMedia } from 'react-use'
 
 interface ZalipuhaProps {
     mouse: number
@@ -39,9 +39,12 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
 
     const [width, setWidth] = useState<number>()
     let height = width
-
+    const isMobile = useMedia('(max-width: 768px)', true)
+    
     useEffect(() => {
-        setWidth(window.innerWidth)
+        isMobile
+            ? setWidth(window.innerHeight)
+            : setWidth(window.innerWidth)
         height = width
     }, [width])
 
