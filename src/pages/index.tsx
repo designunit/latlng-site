@@ -92,11 +92,6 @@ const Index: NextPage = props => {
                                 what's latl.ng?
                             </LinkText>
                         </LinkContainer>
-                        {/* <LinkContainer url='#plushki'>
-                            <LinkText>
-                                fichers and cuties
-                            </LinkText>
-                        </LinkContainer> */}
                         <LinkContainer url='#examples'>
                             <LinkText>
                                 work examples
@@ -108,6 +103,9 @@ const Index: NextPage = props => {
                             textAlign: 'end', 
                             alignSelf: 'flex-end',
                             userSelect: 'text',
+
+                            display: 'flex',
+                            justifyContent: 'flex-end'
                         }} >
                             <LinkContainer url='mailto:inbox@unit4.io'>
                                 <LinkText>
