@@ -7,6 +7,7 @@ import { Highlighted } from '../components/Highlighted'
 import { useState, useCallback } from 'react'
 import { Glitch } from '../components/Glitch'
 import dynamic from 'next/dynamic'
+import { Button } from '../components/Button'
 
 const Zalipuha = dynamic(
     () => import('../components/Zalipuha'),
@@ -406,10 +407,14 @@ const Index: NextPage = props => {
                                         <div />
                                     </div>
                                 </LinkContainer>
-                                
                             </div>
                         )}
                     />
+                </Section>
+                <Section style={{
+                    width: '100%',
+                }}>
+                    <Button />
                 </Section>
             </main>
         </>
