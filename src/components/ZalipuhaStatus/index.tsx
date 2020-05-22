@@ -10,7 +10,7 @@ const ZalipuhaStatus: React.FC<ZalipuhaStatusProps> = ({ mouse, rotation, mouseP
     const isMobile = useMedia('(max-width: 768px)', false)
 
     return (
-        isMobile ? null : (
+        isMobile ? <div style={{ flex: '1 0 100%' }}/> : (
             <div style={{
                 flex: '1 0 50%',
                 textAlign: 'end', 
