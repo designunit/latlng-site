@@ -5,8 +5,22 @@ import { LinkText } from '../components/LinkText'
 import { Ratio } from '../components/Ratio'
 import { Highlighted } from '../components/Highlighted'
 import { useState, useCallback } from 'react'
-import { Zalipuha } from '../components/Zalipuha'
-import { useMedia } from 'react-use'
+import { Glitch } from '../components/Glitch'
+import dynamic from 'next/dynamic'
+
+const Zalipuha = dynamic(
+    () => import('../components/Zalipuha'),
+    { ssr: false }
+)
+const ZalipuhaStatus = dynamic(
+    () => import('../components/ZalipuhaStatus'),
+    { ssr: false }
+)
+const Title = dynamic(
+    () => import('../components/Title'),
+    { ssr: false }
+)
+
 
 const Index: NextPage = props => {
     const [rotation, setRotation] = useState(0)
@@ -22,25 +36,14 @@ const Index: NextPage = props => {
         setMousePos([event.clientX, event.clientY])
     }, [mouse])
     
-    const [mousePos, setMousePos] = useState<[number, number]>(null)
-
-    const isMobile = useMedia('(max-width: 768px)', true)
-
+    const [mousePos, setMousePos] = useState<[number, number]>(null)    
     return (
         <>
-            <div style={{
-                position: 'absolute',
-                left: '20%',
-                top: isMobile ? '0' : '-50%',
-                overflow: 'hidden',
-                maxWidth: '80%', // 100 - left
-            }}>
-                <Zalipuha 
-                    mouse={mouse}
-                    rotation={rotation}
-                    setRotation={setRotation}
-                />
-            </div>
+            <Zalipuha 
+                mouse={mouse}
+                rotation={rotation}
+                setRotation={setRotation}
+            />
             <main style={{
                 position : 'relative',
                 display: 'flex',
@@ -71,26 +74,12 @@ const Index: NextPage = props => {
                         alignContent: 'space-between',
                         userSelect: 'none',
                     }}>
-                        <h1 style={{
-                            flex: '1 0 50%',
-                            userSelect: 'text',
-                        }}>
-                            LATL.NG <br/>
-                            cloud geoinformation system
-                        </h1>
-                        {isMobile ? null : (
-                            <div style={{
-                                flex: '1 0 50%',
-                                textAlign: 'end', 
-                                alignSelf: 'flex-end',
-                                userSelect: 'text',
-                            }}>
-                                angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
-                                speed: {(mouse ?? .05).toFixed(4)} <br/>
-                                cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
-                                cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
-                            </div>
-                        )}
+                        <Title />
+                        <ZalipuhaStatus
+                            mouse={mouse}
+                            rotation={rotation}
+                            mousePos={mousePos}
+                        />
                         <div style={{
                             flex: '1 0 50%',
                             display: 'flex',
@@ -100,7 +89,7 @@ const Index: NextPage = props => {
                         }}> 
                         <LinkContainer url='#about'>
                             <LinkText>
-                                what is latl.ng?
+                                what's latl.ng?
                             </LinkText>
                         </LinkContainer>
                         {/* <LinkContainer url='#plushki'>
@@ -322,19 +311,23 @@ const Index: NextPage = props => {
                                 marginBottom: '-10%'
                             }}>
                                 <LinkContainer url='' >
-                                    <div style={{
-                                        width: '100%',
-                                        height: '250px',
-                                        padding: '5%',
-                                        marginBottom: '10%',
-
-                                        backgroundImage: 'url(/static/cross.svg)',
-                                        border: 'solid 2px white',
-                                        
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
-                                    }}>
+                                    <Glitch image='url(/static/cat.png)' 
+                                        style={{
+                                            width: '100%',
+                                            height: '250px',
+                                            padding: '5%',
+                                            marginBottom: '10%',
+                                            border: 'solid 2px white',
+                                        }}
+                                    >
+                                        <div style={{
+                                            height: '100%',
+                                            width: '100%',
+                                            position: 'relative',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                        }}>
                                         <h2>
                                             Oyamikon
                                         </h2>  
@@ -348,7 +341,8 @@ const Index: NextPage = props => {
                                         </Highlighted>
 
                                         <div />
-                                    </div>
+                                        </div>
+                                    </Glitch>
                                 </LinkContainer>
                                 
                                 <LinkContainer url='' >

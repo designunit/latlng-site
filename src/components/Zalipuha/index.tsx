@@ -8,7 +8,7 @@ interface ZalipuhaProps {
     setRotation: (rotation: number) => void
 }
 
-export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...props }) => {
+const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...props }) => {
     const refCanvas = useRef(null)
 
     const points = [
@@ -39,7 +39,7 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
 
     const [width, setWidth] = useState<number>()
     let height = width
-    const isMobile = useMedia('(max-width: 768px)', true)
+    const isMobile = useMedia('(max-width: 768px)', false)
     
     useEffect(() => {
         isMobile
@@ -172,7 +172,13 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
     })
     
     return (
-        <>
+        <div style={{
+            position: 'absolute',
+            left: '20%',
+            top: isMobile ? '0' : '-50%',
+            overflow: 'hidden',
+            maxWidth: '80%', // 100 - left
+        }}>
             {data.map((item, index) => ( // render images to assign refCats
                 <img 
                     key={index}
@@ -185,6 +191,7 @@ export const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation
                 width={width}
                 height={height}
             ></canvas>
-        </>
+        </div>
     )
 }
+export default Zalipuha
