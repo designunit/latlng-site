@@ -40,12 +40,14 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     const [width, setWidth] = useState<number>()
     let height = width
     const isMobile = useMedia('(max-width: 768px)', false)
+    const context = refCanvas.current?.getContext('2d')
     
     useEffect(() => {
         isMobile
-            ? setWidth(window.innerHeight *2)
-            : setWidth(window.innerWidth *2)
+            ? setWidth(window.innerHeight)
+            : setWidth(window.innerWidth)
         height = width
+        context?.scale(devicePixelRatio, devicePixelRatio)
     }, [width])
 
     const projection = geoOrthographic()
@@ -63,7 +65,6 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
 
         projection.rotate([rotation, -33, 15]) // animate + rotate
 
-        const context = refCanvas.current.getContext('2d')
         const path = geoPath(projection, context)
 
         context.clearRect(0, 0, width, height)
@@ -142,7 +143,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             context.save()
             context.clip('evenodd')
             cursor = [cursor[0] - 25, cursor[1] + 25]
-            context.drawImage(refCats.current[index].current, ...cursor, 50, -50)
+            context.drawImage(refCats.current[index].current, ...cursor.map(x => x.toFixed(0)), 50, -50)
             context.restore()
 
             // text rects
@@ -188,11 +189,11 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
                 />
             ))}
             <canvas ref={refCanvas}
-                width={width}
-                height={height}
+                width={width * devicePixelRatio}
+                height={height * devicePixelRatio}
                 style={{
-                    transformOrigin: 'left top',
-                    transform: 'scale(.5)',
+                    width: width,
+                    height: height
                 }}
             ></canvas>
         </div>
