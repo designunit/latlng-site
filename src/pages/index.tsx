@@ -7,18 +7,17 @@ import { Highlighted } from '../components/Highlighted'
 import { useState, useCallback } from 'react'
 import { Glitch } from '../components/Glitch'
 import dynamic from 'next/dynamic'
-import { Button } from '../components/Button'
 
 const Zalipuha = dynamic(
     () => import('../components/Zalipuha'),
     { ssr: false }
 )
-const ZalipuhaStatus = dynamic(
-    () => import('../components/ZalipuhaStatus'),
+const Hero = dynamic(
+    () => import('../components/Hero'),
     { ssr: false }
 )
-const Title = dynamic(
-    () => import('../components/Title'),
+const About = dynamic(
+    () => import('../components/About'),
     { ssr: false }
 )
 
@@ -67,74 +66,15 @@ const Index: NextPage = props => {
                     onMouseLeave={setMouseNull}
                 >
                     {/* HERO */}
-                    <Section style={{
-                        height: '100vh',
-                        width: '100%',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        alignContent: 'space-between',
-                        userSelect: 'none',
-                    }}>
-                        <Title />
-                        <ZalipuhaStatus
-                            mouse={mouse}
-                            rotation={rotation}
-                            mousePos={mousePos}
-                        />
-                        <div style={{
-                            flex: '1 0 50%',
-                            display: 'flex',
-                            flexDirection: 'column',      
-                            alignItems: 'end',      
-                            userSelect: 'text',            
-                        }}> 
-                        <LinkContainer url='#about'>
-                            <LinkText>
-                                what's latl.ng?
-                            </LinkText>
-                        </LinkContainer>
-                        <LinkContainer url='#examples'>
-                            <LinkText>
-                                work examples
-                            </LinkText>
-                        </LinkContainer>
-                        </div>
-                        <div style={{
-                            flex: '1 0 50%', 
-                            textAlign: 'end', 
-                            alignSelf: 'flex-end',
-                            userSelect: 'text',
-
-                            display: 'flex',
-                            justifyContent: 'flex-end'
-                        }} >
-                            <LinkContainer url='mailto:inbox@unit4.io'>
-                                <LinkText>
-                                    inbox@unit4.io
-                                </LinkText>
-                            </LinkContainer>
-                        </div>
-                    </Section>
+                    <Hero 
+                        mouse={mouse}
+                        rotation={rotation}
+                        mousePos={mousePos}
+                    />
 
                     {/* ABOUT */}
                     <span id='about' />
-                    <Section style={{
-                        userSelect: 'none',
-                    }}>
-                        <Ratio
-                            left={7}
-                            right={3}
-                            leftContent={(
-                                <div style={{
-                                    userSelect: 'text'
-                                }}>
-                                    Открытая интерактивная карта позволяет в реальном времени картировать информацию в короткие сроки за счет привлечения местных команд волонтеров. <Highlighted>Алгоритмы обработки данных позволяют</Highlighted> выявить <Highlighted>форматы и сценарии использования,</Highlighted> устоявшиеся практики и аудитории. Сервис позволяет жителям самостоятельно вносить информацию о городских объектах. Горожане сами картируют свои ценности и видят ценности других горожан.
-                                    <br/><br/>
-                                    Сервис содержит данные о маршрутах общественного транспорта и позволяет строить графики доступности территории и города <Highlighted>в задаваемом временном промежутке</Highlighted> для различных способов и средств передвижения. Встроенные алгоритмы обработки данных позволяют в реальном времени анализировать собранную информацию и визуализирировать ее в понятных графиках, схемах
-                                </div>
-                            )}
-                        />
-                    </Section>
+                    <About />
                 </div>
 
                 {/* PLUSHKEEE */}
@@ -410,11 +350,6 @@ const Index: NextPage = props => {
                             </div>
                         )}
                     />
-                </Section>
-                <Section style={{
-                    width: '100%',
-                }}>
-                    <Button />
                 </Section>
             </main>
         </>
