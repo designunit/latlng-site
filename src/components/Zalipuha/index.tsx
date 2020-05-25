@@ -43,8 +43,8 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     
     useEffect(() => {
         isMobile
-            ? setWidth(window.innerHeight)
-            : setWidth(window.innerWidth)
+            ? setWidth(window.innerHeight *2)
+            : setWidth(window.innerWidth *2)
         height = width
     }, [width])
 
@@ -190,6 +190,10 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             <canvas ref={refCanvas}
                 width={width}
                 height={height}
+                style={{
+                    transformOrigin: 'left top',
+                    transform: 'scale(.5)',
+                }}
             ></canvas>
         </div>
     )
