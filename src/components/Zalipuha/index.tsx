@@ -46,9 +46,9 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
         isMobile
             ? setWidth(window.innerHeight)
             : setWidth(window.innerWidth)
-        height = width
+        height = width || 1
         context?.scale(devicePixelRatio, devicePixelRatio)
-    }, [width])
+    }, [width, context])
 
     const projection = geoOrthographic()
     const wirframe = geoGraticule10()
@@ -136,14 +136,16 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             context.arc(...cursor, 25, 0, Math.PI*2)
             context.strokeStyle = `${colorPrimary}88`
             context.stroke()
-            
-            context.arc(...cursor, 25, 0, Math.PI*2)
-            context.arc(...cursor, 23, 0, Math.PI*2)
-            
+
             context.save()
-            context.clip('evenodd')
+            context.beginPath()
+            context.arc(...cursor, 23, 0, Math.PI*2)
+            context.closePath()
+            context.clip()
+
             cursor = [cursor[0] - 25, cursor[1] + 25]
-            context.drawImage(refCats.current[index].current, ...cursor.map(x => x.toFixed(0)), 50, -50)
+            context.drawImage(refCats.current[index].current, ...cursor.map(x => x), 50, -50)
+
             context.restore()
 
             // text rects
