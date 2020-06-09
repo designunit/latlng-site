@@ -16,13 +16,19 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
         <Section style={{
             height: '100vh',
             width: '100%',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignContent: 'space-between',
+            position: 'relative',
+            display: 'block',
             userSelect: 'none',
         }}>
             <h1 style={{
-                flex: '1 0 50%',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                padding: 'inherit',
+                paddingRight: 0,
+                paddingBottom: 0,
+                width: 'fit-content',
+                
                 userSelect: 'text',
             }}>
                 LATL.NG <br/>
@@ -34,9 +40,16 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             </h1>
             {isMobile ? null : (
                 <div style={{
-                    flex: '1 0 50%', 
-                    alignSelf: 'flex-end',
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    padding: 'inherit',
+                    paddingLeft: 0,
+                    paddingBottom: 0,
+                    width: 'fit-content',
+
                     userSelect: 'text',
+                    alignItems: 'end',
                     textAlign: 'end',
                 }}>
                     angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
@@ -46,7 +59,16 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                 </div>
             )}
             <div style={{
-                flex: '1 0 50%',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                padding: 'inherit',
+                paddingTop: 0,
+                paddingRight: 0,
+                width: 'fit-content',
+
+                whiteSpace: 'nowrap',
+
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'start',
@@ -65,7 +87,14 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             </div>
             {isMobile ? null : (
                 <div style={{
-                    flex: '1 0 50%',
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    padding: 'inherit',
+                    paddingTop: 0,
+                    paddingLeft: 0,
+                    width: 'fit-content',
+                    
                     alignSelf: 'flex-end',
                     userSelect: 'text',
                     textAlign: 'end',
