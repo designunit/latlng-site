@@ -48,9 +48,9 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             <div style={{
                 flex: '1 0 50%',
                 display: 'flex',
-                flexDirection: 'column',      
-                alignItems: 'end',      
-                userSelect: 'text',            
+                flexDirection: 'column',
+                alignItems: 'start',
+                userSelect: 'text',      
             }}> 
             <LinkContainer url='#about'>
                 <LinkText>

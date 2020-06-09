@@ -21,10 +21,10 @@ const About = dynamic(
     { ssr: false }
 )
 
-
 const Index: NextPage = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
+    const [mousePos, setMousePos] = useState<[number, number]>(null)
     const mouseSpeed = .1
     const setMouseNull = useCallback(event => setMouse(null), [])
     const setMouseZero = useCallback(event => setMouse(0), [])
@@ -35,8 +35,7 @@ const Index: NextPage = props => {
             : setMouse(null)
         setMousePos([event.clientX, event.clientY])
     }, [mouse])
-    
-    const [mousePos, setMousePos] = useState<[number, number]>(null)    
+        
     return (
         <>
             <Zalipuha 
@@ -258,7 +257,6 @@ const Index: NextPage = props => {
                                         style={{
                                             width: '100%',
                                             height: '250px',
-                                            padding: '5%',
                                             marginBottom: '10%',
                                             border: 'solid 2px white',
                                         }}
@@ -270,13 +268,17 @@ const Index: NextPage = props => {
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'space-between',
+                                            alignItems: 'start',
                                         }}>
-                                        <h2>
+                                        <h2 style={{
+                                            position: 'relative',
+                                            top: '5%',
+                                            left: '5%',
+                                        }}>
                                             Oyamikon
                                         </h2>  
 
                                         <Highlighted style={{
-                                            marginLeft: '-5%',
                                             width: 'fit-content', 
                                             fontSize: '1.2rem',
                                         }}>
@@ -292,7 +294,6 @@ const Index: NextPage = props => {
                                     <div style={{
                                         width: '100%',
                                         height: '250px',
-                                        padding: '5%',
                                         marginBottom: '10%',
 
                                         backgroundImage: 'url(/static/cross.svg)',
@@ -301,13 +302,17 @@ const Index: NextPage = props => {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
+                                        alignItems: 'start',
                                     }}>
-                                        <h2>
+                                        <h2 style={{
+                                            position: 'relative',
+                                            top: '5%',
+                                            left: '5%',
+                                        }}>
                                             Yrai - HMAO
                                         </h2>  
 
                                         <Highlighted style={{
-                                            marginLeft: '-5%',
                                             width: 'fit-content', 
                                             fontSize: '1.2rem',
                                         }}>
@@ -322,7 +327,6 @@ const Index: NextPage = props => {
                                     <div style={{
                                         width: '100%',
                                         height: '250px',
-                                        padding: '5%',
                                         marginBottom: '10%',
 
                                         backgroundImage: 'url(/static/cross.svg)',
@@ -331,13 +335,17 @@ const Index: NextPage = props => {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
+                                        alignItems: 'start',
                                     }}>
-                                        <h2>
+                                        <h2 style={{
+                                            position: 'relative',
+                                            top: '5%',
+                                            left: '5%',
+                                        }}>
                                             Pitkäranta
                                         </h2>  
 
                                         <Highlighted style={{
-                                            marginLeft: '-5%',
                                             width: 'fit-content', 
                                             fontSize: '1.2rem',
                                         }}>
