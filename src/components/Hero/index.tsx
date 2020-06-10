@@ -24,7 +24,8 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                 flex: '1 0 50%',
             }}>
                 <span style={{
-                    userSelect: 'text', 
+                    userSelect: 'text',
+                    WebkitUserSelect: 'text',
                 }}>
                     LATL.NG<br/>
                     <span style={{
@@ -42,7 +43,8 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                     textAlign: 'end', 
                 }}>
                     <span style={{
-                        userSelect: 'text', 
+                        userSelect: 'text',
+                        WebkitUserSelect: 'text',
                     }}>
                         angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
                         speed: {(mouse ?? .05).toFixed(4)} <br/>
@@ -59,6 +61,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                     flexDirection: 'column',
                     alignItems: 'start', 
                     userSelect: 'text',
+                    WebkitUserSelect: 'text',
                     width: 'fit-content',
                 }}>
                     <LinkContainer url='#about'>
@@ -80,7 +83,8 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                     textAlign: 'end',
                 }}>
                     <span style={{
-                        userSelect: 'text', 
+                        userSelect: 'text',
+                        WebkitUserSelect: 'text',
                     }}>
                         <LinkContainer url='mailto:inbox@unit4.io'>
                             <LinkText>
