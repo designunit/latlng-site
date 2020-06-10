@@ -34,6 +34,9 @@ const Index: NextPage = props => {
             ? setMouse(Math.abs(eventDelta - mouse) < 0 ? 0 : eventDelta)
             : setMouse(null)
         setMousePos([event.clientX, event.clientY])
+        console.log('mouseMove // target: ', event.target,
+        'event.buttons: ', event.buttons
+        )
     }, [mouse])
         
     return (
@@ -62,10 +65,19 @@ const Index: NextPage = props => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none',
                 }}
-                    onMouseDown={setMouseZero}
-                    onMouseUp={setMouseNull}
+                    onMouseDown={event => {
+                        setMouseZero(event)
+                        console.log('onMouseDown // target: ', event.target)
+                    }}
+                    onMouseUp={event => {
+                        setMouseNull(event)
+                        console.log('onMouseUp // target: ', event.target)
+                    }}
                     onMouseMove={onMouseMove}
-                    onMouseLeave={setMouseNull}
+                    onMouseLeave={event => {
+                        setMouseNull(event)
+                        console.log('onMouseLeave // target: ', event.target)
+                    }}
                 >
                     {/* HERO */}
                     <Hero 
