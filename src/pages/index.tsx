@@ -58,6 +58,8 @@ const Index: NextPage = props => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+
+                    userSelect: 'none',
                 }}
                     onMouseDown={setMouseZero}
                     onMouseUp={setMouseNull}
