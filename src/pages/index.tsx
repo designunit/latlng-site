@@ -38,7 +38,7 @@ const Index: NextPage = props => {
             {
                 'event.target': event.target,
                 'event.buttons': event.buttons,
-                'angle delta': eventDelta,
+                'angle delta': mouse,
             }
         )
     }, [mouse])
@@ -69,10 +69,10 @@ const Index: NextPage = props => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none',
                 }}
-                    onMouseDown={setMouseZero}
-                    onMouseUp={setMouseNull}
+                    onMouseDown={event => {setMouseZero(event); console.log('onMouseDown', {'angle delta': mouse,})}}
+                    onMouseUp={event => {setMouseNull(event); console.log('onMouseUp', {'angle delta': mouse,})}}
                     onMouseMove={onMouseMove}
-                    onMouseLeave={setMouseNull}
+                    onMouseLeave={event => {setMouseNull(event); console.log('onMouseLeave', {'angle delta': mouse,})}}
                 >
                     {/* HERO */}
                     <Hero 
