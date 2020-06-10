@@ -25,11 +25,11 @@ const Index: NextPage = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
-    const mouseSpeed = .1 * devicePixelRatio
+    const mouseSpeed = .1 
     const setMouseNull = useCallback(event => setMouse(null), [])
     const setMouseZero = useCallback(event => setMouse(0), [])
     const onMouseMove = useCallback(event => {
-        const eventDelta = event.movementX * mouseSpeed
+        const eventDelta = event.movementX * mouseSpeed * devicePixelRatio
         event.buttons === 1
             ? setMouse(Math.abs(eventDelta - mouse) < 0 ? 0 : eventDelta)
             : setMouse(null)
