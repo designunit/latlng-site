@@ -122,12 +122,13 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             context.moveTo(...cursor)
             cursor = [cursor[0], cursor[1] - 40]
             context.lineTo(...cursor)
-            context.strokeStyle = `${colorPrimary}88`
+            context.strokeStyle = `${colorPrimary}44`
             context.stroke()
 
             // big rect
             context.fillStyle = `${colorPrimary}44`
             context.fillRect(...cursor, 200, -60)
+            context.strokeStyle = `${colorPrimary}88`
             context.strokeRect(...cursor, 200, -60)
 
             // avatar
