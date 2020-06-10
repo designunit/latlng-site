@@ -25,17 +25,21 @@ const Index: NextPage = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
-    const mouseSpeed = .1 
+    const mouseSpeed = .1  
     const setMouseNull = useCallback(event => setMouse(null), [])
     const setMouseZero = useCallback(event => setMouse(0), [])
     const onMouseMove = useCallback(event => {
-        const eventDelta = event.movementX * mouseSpeed
+        const eventDelta = event.movementX * mouseSpeed * devicePixelRatio
         event.buttons === 1
-            ? setMouse(Math.abs(eventDelta - mouse) < 0 ? 0 : eventDelta)
+            ? setMouse(eventDelta) // Math.abs(eventDelta - mouse) < 0 ? 0 : eventDelta 
             : setMouse(null)
         setMousePos([event.clientX, event.clientY])
-        console.log('mouseMove // target: ', event.target,
-        'event.buttons: ', event.buttons
+        console.log('onMouseMove // debug:',
+            {
+                'event.target': event.target,
+                'event.buttons': event.buttons,
+                'angle delta': eventDelta,
+            }
         )
     }, [mouse])
         
@@ -65,19 +69,10 @@ const Index: NextPage = props => {
                     userSelect: 'none',
                     WebkitUserSelect: 'none',
                 }}
-                    onMouseDown={event => {
-                        setMouseZero(event)
-                        console.log('onMouseDown // target: ', event.target)
-                    }}
-                    onMouseUp={event => {
-                        setMouseNull(event)
-                        console.log('onMouseUp // target: ', event.target)
-                    }}
+                    onMouseDown={setMouseZero}
+                    onMouseUp={setMouseNull}
                     onMouseMove={onMouseMove}
-                    onMouseLeave={event => {
-                        setMouseNull(event)
-                        console.log('onMouseLeave // target: ', event.target)
-                    }}
+                    onMouseLeave={setMouseNull}
                 >
                     {/* HERO */}
                     <Hero 

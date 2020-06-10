@@ -61,7 +61,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     const [stop, start, isActive] = useRafLoop(time => {
         mouse === null
             ? setRotation(rotation + .05 % 360)
-            : setRotation(rotation + mouse * devicePixelRatio)
+            : setRotation(rotation + mouse)
 
         projection.rotate([rotation, -33, 15]) // animate + rotate
 
