@@ -60,6 +60,7 @@ const Index: NextPage = props => {
                     alignItems: 'center',
 
                     userSelect: 'none',
+                    WebkitUserSelect: 'none',
                 }}
                     onMouseDown={setMouseZero}
                     onMouseUp={setMouseNull}
