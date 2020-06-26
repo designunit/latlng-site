@@ -2,6 +2,7 @@ import { useMedia } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
+import { Title } from "./Title"
 
 interface HeroProps {
     mouse: number
@@ -20,21 +21,10 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             flexWrap: 'wrap',
             alignContent: 'space-between',
         }}>
-            <h1 style={{
+            <Title style={{
                 flex: '1 0 50%',
-            }}>
-                <span style={{
-                    userSelect: 'text',
-                    WebkitUserSelect: 'text',
-                }}>
-                    LATL.NG<br/>
-                    <span style={{
-                        fontSize : isMobile ? '26px' : null
-                    }}>
-                        cloud geoinformation system
-                    </span>
-                </span>
-            </h1>
+            }} />
+
             {isMobile ? null : (
                 <div style={{
                     flex: '1 0 50%', 
