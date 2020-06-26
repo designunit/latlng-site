@@ -1,3 +1,6 @@
+import s from './zalipuha.module.css'
+
+import cc from 'classcat'
 import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo'
 import { useRef, useEffect, useState } from 'react'
 import { useRafLoop, useMedia } from 'react-use'
@@ -176,13 +179,9 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     })
     
     return (
-        <div style={{
-            position: 'absolute',
-            left: '20%',
-            top: isMobile ? '0' : '-50%',
-            overflow: 'hidden',
-            maxWidth: '80%', // 100 - left
-        }}>
+        <div className={cc([s.container, {
+            [s.desktop]: !isMobile,
+        }])} >
             {data.map((item, index) => ( // render images to assign refCats
                 <img 
                     key={index}
