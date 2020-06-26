@@ -1,8 +1,8 @@
-import { useMedia } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
 import { Title } from "./Title"
+import { useMobile } from "@/hooks/useMobile"
 
 interface HeroProps {
     mouse: number
@@ -11,7 +11,7 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const isMobile = useMedia('(max-width: 768px)', false)
+    const isMobile = useMobile()
 
     return (
         <Section style={{
@@ -27,29 +27,29 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
 
             {isMobile ? null : (
                 <div style={{
-                    flex: '1 0 50%', 
+                    flex: '1 0 50%',
                     alignSelf: 'flex-end',
                     alignItems: 'end',
-                    textAlign: 'end', 
+                    textAlign: 'end',
                 }}>
                     <span style={{
                         userSelect: 'text',
                         WebkitUserSelect: 'text',
                     }}>
-                        angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
-                        speed: {(mouse ?? .05).toFixed(4)} <br/>
-                        cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
-                        cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
+                        angle: {(Math.abs(rotation % 360)).toFixed(4)} <br />
+                        speed: {(mouse ?? .05).toFixed(4)} <br />
+                        cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br />
+                        cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br />
                     </span>
                 </div>
             )}
             <div style={{
-                flex: '1 0 50%',    
+                flex: '1 0 50%',
             }}>
                 <span style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'start', 
+                    alignItems: 'start',
                     userSelect: 'text',
                     WebkitUserSelect: 'text',
                     width: 'fit-content',
