@@ -35,7 +35,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
         [72.42099035441424, -29.84503313630067],
         [-92.40387452005182, 20.1722585434017],
         [154.88855888496272, -45.3358210847797],
-    ].sort((a,b) => a[0] - b[0])
+    ].sort((a, b) => a[0] - b[0])
 
     const data = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(data.map(() => useRef(null))) // ref[]
@@ -44,7 +44,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     let height = width
     const isMobile = useMedia('(max-width: 768px)', false)
     const context = refCanvas.current?.getContext('2d')
-    
+
     useEffect(() => {
         isMobile
             ? setWidth(window.innerHeight)
@@ -56,7 +56,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
     const projection = geoOrthographic()
     const wirframe = geoGraticule10()
 
-    projection.fitExtent([[0,0], [width, height]], wirframe)
+    projection.fitExtent([[0, 0], [width, height]], wirframe)
 
     const colorSecondary = '#BB86FC'
     const colorPrimary = '#03DAC5'
@@ -71,12 +71,12 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
         const path = geoPath(projection, context)
 
         context.clearRect(0, 0, width, height)
-        
+
         const r = projection.rotate() // front layer rotation 
 
         // project as back layer
         // @ts-ignore
-        projection.reflectX(true).rotate([r[0] + 180 , -r[1], -r[2]])
+        projection.reflectX(true).rotate([r[0] + 180, -r[1], -r[2]])
 
         path.pointRadius(3)
 
@@ -89,37 +89,37 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
 
         // draw points back
         context.beginPath()
-        path({type: "MultiPoint", coordinates: points})
+        path({ type: "MultiPoint", coordinates: points })
         context.fillStyle = `${colorSecondary}44`
         context.fill()
 
         // project as front layer
         // @ts-ignore
         projection.reflectX(false).rotate(r)
-        
+
         // simple circle
         context.beginPath()
-        path({type: 'Sphere'})
-        context.lineWidth = 1 
+        path({ type: 'Sphere' })
+        context.lineWidth = 1
         context.strokeStyle = `${colorSecondary}88`
         context.stroke()
 
         // draw points front
         context.beginPath()
-        path({type: "MultiPoint", coordinates: points})
+        path({ type: "MultiPoint", coordinates: points })
         context.fillStyle = `${colorSecondary}88`
         context.fill()
 
         // draw front wireframe
         context.beginPath()
         path(wirframe)
-        context.lineWidth = 1 
+        context.lineWidth = 1
         context.strokeStyle = `${colorSecondary}88`
         context.stroke()
 
         points.map((coords, index) => {
-            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
-                
+            let cursor: number[] = path.centroid({ type: "Point", coordinates: coords })
+
             // palochka
             context.beginPath()
             context.moveTo(...cursor)
@@ -137,13 +137,13 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             // avatar
             cursor = [cursor[0] + 5 + 25, cursor[1] - 5 - 25]
             context.moveTo(...cursor)
-            context.arc(...cursor, 25, 0, Math.PI*2)
+            context.arc(...cursor, 25, 0, Math.PI * 2)
             context.strokeStyle = `${colorPrimary}88`
             context.stroke()
 
             context.save()
             context.beginPath()
-            context.arc(...cursor, 23, 0, Math.PI*2)
+            context.arc(...cursor, 23, 0, Math.PI * 2)
             context.closePath()
             context.clip()
 
@@ -161,15 +161,15 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
 
             // text second row
             cursor = [cursor[0] - 45, cursor[1] + 13]
-            context.fillRect(...cursor, 35/2, 5)
-            cursor = [cursor[0] + 35/2 + 5, cursor[1]]
-            context.fillRect(...cursor, 35/2, 5)
+            context.fillRect(...cursor, 35 / 2, 5)
+            cursor = [cursor[0] + 35 / 2 + 5, cursor[1]]
+            context.fillRect(...cursor, 35 / 2, 5)
 
             // text long rows
-            cursor = [cursor[0] - 35/2 - 5, cursor[1] + 8]
+            cursor = [cursor[0] - 35 / 2 - 5, cursor[1] + 8]
             for (let i = 0; i < 4; i++) {
                 context.fillRect(...cursor, 135, 5)
-                cursor = [cursor[0], cursor[1] + 8]                                
+                cursor = [cursor[0], cursor[1] + 8]
             }
 
             // context.font = '20px Roboto Mono'
@@ -177,19 +177,20 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             // context.fillText(projection(coords as [number, number]), ...cursor.map(x => x+50))
         })
     })
-    
+
     return (
         <div className={cc([s.container, {
             [s.desktop]: !isMobile,
         }])} >
             {data.map((item, index) => ( // render images to assign refCats
-                <img 
+                <img
                     key={index}
-                    ref={refCats.current[index]} 
+                    ref={refCats.current[index]}
                     src={item}
                     style={{ display: 'none' }}
                 />
             ))}
+
             <canvas ref={refCanvas}
                 width={width * devicePixelRatio}
                 height={height * devicePixelRatio}
