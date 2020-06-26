@@ -3,6 +3,7 @@ import { LinkText } from "../LinkText"
 import { Section } from "../Section"
 import { Title } from "./Title"
 import { useMobile } from "@/hooks/useMobile"
+import { ZalipuhaStat } from "../ZalipuhaStat"
 
 interface HeroProps {
     mouse: number
@@ -12,6 +13,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
     const isMobile = useMobile()
+    const mp = mousePos ?? [0, 0]
 
     return (
         <Section style={{
@@ -26,22 +28,22 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             }} />
 
             {isMobile ? null : (
-                <div style={{
-                    flex: '1 0 50%',
-                    alignSelf: 'flex-end',
-                    alignItems: 'end',
-                    textAlign: 'end',
-                }}>
-                    <span style={{
-                        userSelect: 'text',
-                        WebkitUserSelect: 'text',
+                <>
+                    <div style={{
+                        flex: '1 0 50%',
+                        alignSelf: 'flex-end',
+                        alignItems: 'end',
+                        textAlign: 'end',
                     }}>
-                        angle: {(Math.abs(rotation % 360)).toFixed(4)} <br />
-                        speed: {(mouse ?? .05).toFixed(4)} <br />
-                        cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br />
-                        cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br />
-                    </span>
-                </div>
+                        <ZalipuhaStat
+                            formatPattern={'0000.0000'}
+                            rotation={rotation}
+                            mouseSpeed={mouse}
+                            mouseX={mp[0]}
+                            mouseY={mp[1]}
+                        />
+                    </div>
+                </>
             )}
             <div style={{
                 flex: '1 0 50%',
