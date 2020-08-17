@@ -1,6 +1,6 @@
 import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo'
-import { useRef, useEffect, useState } from 'react'
-import { useRafLoop, useMedia } from 'react-use'
+import { useRef, useEffect, useState, memo } from 'react'
+import { useRafLoop, createBreakpoint } from 'react-use'
 
 interface ZalipuhaProps {
     mouse: number
@@ -8,9 +8,9 @@ interface ZalipuhaProps {
     setRotation: (rotation: number) => void
 }
 
-const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...props }) => {
-    const refCanvas = useRef(null)
+const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
 
+const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }) => {
     const points = [
         [-12.471514065069812, 29.96032823460071],
         [-66.14344941751239, -33.78218055874478],
@@ -33,27 +33,32 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
         [-92.40387452005182, 20.1722585434017],
         [154.88855888496272, -45.3358210847797],
     ].sort((a,b) => a[0] - b[0])
+    const catPaths = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
+    const refCats = useRef(catPaths.map(() => useRef(null))) // ref[]
 
-    const data = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
-    const refCats = useRef(data.map(() => useRef(null))) // ref[]
-
-    const [width, setWidth] = useState<number>()
+    const [width, setWidth] = useState(window.innerHeight) 
     let height = width
-    const isMobile = useMedia('(max-width: 768px)', false)
-    const context = refCanvas.current?.getContext('2d')
+    const isMobile = breakpoint() === 'mobile'
+
+    const refCanvas = useRef(null)
+    const ctx = refCanvas.current?.getContext('2d')
     
     useEffect(() => {
         isMobile
             ? setWidth(window.innerHeight)
             : setWidth(window.innerWidth)
-        height = width || 1
-        context?.scale(devicePixelRatio, devicePixelRatio)
-    }, [width, context])
+        height = width
+
+        ctx?.scale(devicePixelRatio, devicePixelRatio)
+        pointCtx?.scale(devicePixelRatio, devicePixelRatio)
+    }, [width, ctx, isMobile])
 
     const projection = geoOrthographic()
     const wirframe = geoGraticule10()
 
-    projection.fitExtent([[0,0], [width, height]], wirframe)
+    useEffect(() => {
+        projection.fitExtent([[0,0], [width, height]], wirframe)
+    }, [projection])
 
     const colorSecondary = '#BB86FC'
     const colorPrimary = '#03DAC5'
@@ -65,9 +70,9 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
 
         projection.rotate([rotation, -33, 15]) // animate + rotate
 
-        const path = geoPath(projection, context)
+        const path = geoPath(projection, ctx)
 
-        context.clearRect(0, 0, width, height)
+        ctx.clearRect(0, 0, width, height)
         
         const r = projection.rotate() // front layer rotation 
 
@@ -78,102 +83,123 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
         path.pointRadius(3)
 
         // draw back wireframe
-        context.beginPath()
+        ctx.beginPath()
         path(wirframe)
-        context.lineWidth = .5
-        context.strokeStyle = `${colorSecondary}44`
-        context.stroke()
+        ctx.lineWidth = .5
+        ctx.strokeStyle = `${colorSecondary}44`
+        ctx.stroke()
 
         // draw points back
-        context.beginPath()
+        ctx.beginPath()
         path({type: "MultiPoint", coordinates: points})
-        context.fillStyle = `${colorSecondary}44`
-        context.fill()
+        ctx.fillStyle = `${colorSecondary}44`
+        ctx.fill()
 
         // project as front layer
         // @ts-ignore
         projection.reflectX(false).rotate(r)
         
         // simple circle
-        context.beginPath()
+        ctx.beginPath()
         path({type: 'Sphere'})
-        context.lineWidth = 1 
-        context.strokeStyle = `${colorSecondary}88`
-        context.stroke()
+        ctx.lineWidth = 1 
+        ctx.strokeStyle = `${colorSecondary}88`
+        ctx.stroke()
 
         // draw points front
-        context.beginPath()
+        ctx.beginPath()
         path({type: "MultiPoint", coordinates: points})
-        context.fillStyle = `${colorSecondary}88`
-        context.fill()
+        ctx.fillStyle = `${colorSecondary}88`
+        ctx.fill()
 
         // draw front wireframe
-        context.beginPath()
+        ctx.beginPath()
         path(wirframe)
-        context.lineWidth = 1 
-        context.strokeStyle = `${colorSecondary}88`
-        context.stroke()
+        ctx.lineWidth = 1 
+        ctx.strokeStyle = `${colorSecondary}88`
+        ctx.stroke()
+
+        // draw offscreen canvas
+        points.map((coords, index) => {
+            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
+            cursor[0] -= 1
+            cursor[1] -= 101
+
+            ctx.drawImage(refPointCanvas.current, ...cursor, 202, 102)
+        })
+
+        // draw avatars
+        ctx.save()
+        ctx.beginPath()
+        points.map((coords, index) => {
+            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
+            cursor = [cursor[0] + 53, cursor[1] - 70]
+            ctx.moveTo(...cursor)
+            ctx.arc(cursor[0] - 23, cursor[1], 23, 0, Math.PI*2)
+        })
+        ctx.clip()
 
         points.map((coords, index) => {
             let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
-                
+            cursor = [cursor[0] + 5, cursor[1] - 45]
+            ctx.drawImage(refCats.current[index].current, ...cursor, 50, -50)
+        })
+        ctx.restore()
+    })
+
+    const refPointCanvas = useRef(null)
+    const pointCtx = refPointCanvas.current?.getContext('2d')
+
+    // draw squares and lines in offscreen canvas
+    useEffect(() => {
+        if(pointCtx) {
+            let cursor = [1, 101]
+            pointCtx.lineWidth = 1
+
             // palochka
-            context.beginPath()
-            context.moveTo(...cursor)
+            pointCtx.beginPath()
+            pointCtx.moveTo(...cursor)
             cursor = [cursor[0], cursor[1] - 40]
-            context.lineTo(...cursor)
-            context.strokeStyle = `${colorPrimary}44`
-            context.stroke()
-
+            pointCtx.lineTo(...cursor)
+            pointCtx.strokeStyle = `${colorPrimary}88`
+            pointCtx.stroke()
+    
             // big rect
-            context.fillStyle = `${colorPrimary}44`
-            context.fillRect(...cursor, 200, -60)
-            context.strokeStyle = `${colorPrimary}88`
-            context.strokeRect(...cursor, 200, -60)
-
-            // avatar
-            cursor = [cursor[0] + 5 + 25, cursor[1] - 5 - 25]
-            context.moveTo(...cursor)
-            context.arc(...cursor, 25, 0, Math.PI*2)
-            context.strokeStyle = `${colorPrimary}88`
-            context.stroke()
-
-            context.save()
-            context.beginPath()
-            context.arc(...cursor, 23, 0, Math.PI*2)
-            context.closePath()
-            context.clip()
-
-            cursor = [cursor[0] - 25, cursor[1] + 25]
-            context.drawImage(refCats.current[index].current, ...cursor.map(x => x), 50, -50)
-
-            context.restore()
-
+            pointCtx.fillStyle = `${colorPrimary}44`
+            pointCtx.fillRect(...cursor, 200, -60)
+            pointCtx.strokeStyle = `${colorPrimary}88`
+            pointCtx.strokeRect(...cursor, 200, -60)
+    
+            // avatar frame
+            cursor = [cursor[0] + 5 + 50, cursor[1] - 5 - 25]
+            pointCtx.moveTo(...cursor)
+            pointCtx.arc(cursor[0] - 25, cursor[1], 25, 0, Math.PI*2)
+            pointCtx.strokeStyle = `${colorPrimary}88`
+            pointCtx.stroke()
+    
+            cursor = [cursor[0] - 50, cursor[1] + 25]
+    
             // text rects
             cursor = [cursor[0] + 55, cursor[1] - 50]
-            context.fillRect(...cursor, 40, 10)
-
+            pointCtx.fillRect(...cursor, 40, 10)
+    
             cursor = [cursor[0] + 45, cursor[1] - 0]
-            context.fillRect(...cursor, 90, 10)
-
+            pointCtx.fillRect(...cursor, 90, 10)
+    
             // text second row
             cursor = [cursor[0] - 45, cursor[1] + 13]
-            context.fillRect(...cursor, 35/2, 5)
+            pointCtx.fillRect(...cursor, 35/2, 5)
             cursor = [cursor[0] + 35/2 + 5, cursor[1]]
-            context.fillRect(...cursor, 35/2, 5)
-
+            pointCtx.fillRect(...cursor, 35/2, 5)
+    
             // text long rows
             cursor = [cursor[0] - 35/2 - 5, cursor[1] + 8]
             for (let i = 0; i < 4; i++) {
-                context.fillRect(...cursor, 135, 5)
-                cursor = [cursor[0], cursor[1] + 8]                                
+                pointCtx.fillRect(...cursor, 135, 5)
+                cursor = [cursor[0], cursor[1] + 8]                        
             }
-
-            // context.font = '20px Roboto Mono'
-            // context.fillText(coords, ...cursor.map(x => x+20))
-            // context.fillText(projection(coords as [number, number]), ...cursor.map(x => x+50))
-        })
-    })
+        }
+    }, [pointCtx])
     
     return (
         <div style={{
@@ -183,7 +209,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
             overflow: 'hidden',
             maxWidth: '80%', // 100 - left
         }}>
-            {data.map((item, index) => ( // render images to assign refCats
+            {catPaths.map((item, index) => ( // render images to assign refCats
                 <img 
                     key={index}
                     ref={refCats.current[index]} 
@@ -191,15 +217,28 @@ const Zalipuha: React.FC<ZalipuhaProps> = ({ mouse, rotation, setRotation, ...pr
                     style={{ display: 'none' }}
                 />
             ))}
-            <canvas ref={refCanvas}
+            <canvas // offscreen canvas
+                ref={refPointCanvas}
+                width={202 * devicePixelRatio}
+                height={102 * devicePixelRatio}
+                style={{
+                    width: 202,
+                    height: 102,
+                    display: 'none',
+                }}
+            ></canvas>
+            <canvas 
+                ref={refCanvas}
                 width={width * devicePixelRatio}
                 height={height * devicePixelRatio}
                 style={{
                     width: width,
-                    height: height
+                    height: height,
+                    willChange: 'width, height'
                 }}
             ></canvas>
         </div>
     )
-}
+})
+
 export default Zalipuha

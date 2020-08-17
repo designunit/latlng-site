@@ -1,4 +1,4 @@
-import { useMedia } from "react-use"
+import { createBreakpoint } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
@@ -6,11 +6,12 @@ import { Section } from "../Section"
 interface HeroProps {
     mouse: number
     rotation: number
-    mousePos: any
+    mousePos: [number, number]
 }
 
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const isMobile = useMedia('(max-width: 768px)', false)
+    const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
+    const isMobile = breakpoint() === 'mobile' 
 
     return (
         <Section style={{
@@ -21,7 +22,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             alignContent: 'space-between',
         }}>
             <h1 style={{
-                flex: '1 0 50%',
+                flex: isMobile ? '1 0 100%' : '1 0 50%',
             }}>
                 <span style={{
                     userSelect: 'text',
@@ -56,7 +57,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             <div style={{
                 flex: '1 0 50%',    
             }}>
-                <span style={{
+                <div style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'start', 
@@ -74,7 +75,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                             work examples
                         </LinkText>
                     </LinkContainer>
-                </span>
+                </div>
             </div>
             {isMobile ? null : (
                 <div style={{
@@ -86,11 +87,16 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                         userSelect: 'text',
                         WebkitUserSelect: 'text',
                     }}>
-                        <LinkContainer url='mailto:inbox@unit4.io'>
+                        <a 
+                            href='mailto:inbox@unit4.io'
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                        >
                             <LinkText>
                                 inbox@unit4.io
                             </LinkText>
-                        </LinkContainer>
+                        </a>
                     </span>
                 </div>
             )}
