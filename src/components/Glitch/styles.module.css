@@ -7,27 +7,28 @@
 }
 
 .imageGlitch:hover::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--color-secondary);
-        overflow: hidden;
-        animation: img-glitch-cyan 4s infinite linear alternate-reverse;
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-secondary);
+  overflow: hidden;
+  animation: img-glitch-cyan 4s infinite linear alternate-reverse;
+  display: none;
 }
 .imageGlitch:hover::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--color-primary);
-        overflow: hidden;
-        animation: img-glitch-red 3s infinite linear alternate-reverse;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  overflow: hidden;
+  animation: img-glitch-red 3s infinite linear alternate-reverse;
 }
 
 /* https://codepen.io/TomasKosik/pen/aKxzVG */
@@ -52,21 +53,6 @@
     z-index: 0;
   }
   
-  /* #red {
-    background-color: rgba(0, 128, 0, 0.16);
-    background-blend-mode: hue;
-  }
-  
-  #cyan {
-    background-color: rgba(0, 255, 158, 0.25);
-    background-blend-mode: darken;
-  }
-  
-  #transparent {
-    background-color: transparent;
-    background-blend-mode: unset;
-  } */
-  
   .imageGlitch:hover #red {
     animation: img-glitch-red 4s infinite linear alternate-reverse both;
   }
@@ -82,16 +68,20 @@
   @keyframes img-glitch-red {
     0% {
         clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
+        -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
     }
     40% {
         clip-path: polygon(0% 69%, 100% 69%, 100% 67%, 0% 67%);
+        -webkit-clip-path: polygon(0% 69%, 100% 69%, 100% 67%, 0% 67%);
         transform: scaleX(1.09);
     }
     50% {
         clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
+        -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
     }
     100% {
         clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
+        -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
     }
   }
 
