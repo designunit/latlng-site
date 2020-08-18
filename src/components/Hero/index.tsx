@@ -9,8 +9,9 @@ interface HeroProps {
     mousePos: [number, number]
 }
 
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
+
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
     const isMobile = breakpoint() === 'mobile' 
 
     return (

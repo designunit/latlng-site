@@ -4,7 +4,7 @@ import { Glitch } from '../Glitch'
 import { Highlighted } from '../Highlighted'
 import { createBreakpoint } from 'react-use'
 
-const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
 export const Examples: React.FC = () => {
     const isMobile = breakpoint() === 'mobile'
@@ -37,8 +37,10 @@ export const Examples: React.FC = () => {
                 flexWrap: 'wrap',
             }}
         >
-            {examples.map(({ picturePath, text }) => (
-                <LinkContainer url='' 
+            {examples.map(({ picturePath, text }, index) => (
+                <LinkContainer
+                    key={index}
+                    url='' 
                     style={{
                         flex: '0 0 30%',
                         marginBottom: '5%',

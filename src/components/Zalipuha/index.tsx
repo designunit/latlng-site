@@ -8,7 +8,7 @@ interface ZalipuhaProps {
     setRotation: (rotation: number) => void
 }
 
-const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
 const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }) => {
     const points = [
@@ -226,7 +226,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
                     height: 102,
                     display: 'none',
                 }}
-            ></canvas>
+            />
             <canvas 
                 ref={refCanvas}
                 width={width * devicePixelRatio}
@@ -236,7 +236,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
                     height: height,
                     willChange: 'width, height'
                 }}
-            ></canvas>
+            />
         </div>
     )
 })

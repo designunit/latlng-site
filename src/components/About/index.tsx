@@ -3,7 +3,7 @@ import { Ratio } from "../Ratio"
 import { Highlighted } from "../Highlighted"
 import { createBreakpoint } from "react-use"
 
-const breakpoint = createBreakpoint({ mobile: 1024, laptop: 1440, desktop: 1920 })
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
 const About: React.FC = props => {
     const isMobile = breakpoint() === 'mobile' 
