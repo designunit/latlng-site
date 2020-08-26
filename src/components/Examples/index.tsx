@@ -11,20 +11,39 @@ export const Examples: React.FC = () => {
 
     const examples = [
         {
-            picturePath: '/static/cat.png',
-            text: 'Oyamikon'
+            picturePath: '/static/maps/uray.jpg',
+            text: 'Берегурай - Uray',
+            link: 'https://app.latl.ng/map/bereguray',
         },
         {
-            picturePath: '/static/cat.png',
-            text: 'Pitkäranta'
+            picturePath: '/static/maps/nyagan.jpg',
+            text: 'Нягань - Nyagan',
+            link: 'https://app.latl.ng/map/nyagan',
         },
         {
-            picturePath: '/static/cat.png',
-            text: 'Yrai - HMAO'
+            picturePath: '/static/maps/oymyakon.jpg',
+            text: 'Оймякон - Oymyakon',
+            link: 'https://oymyakon.unit4.io',
         },
         {
-            picturePath: '/static/cat.png',
-            text: 'Oyamikon'
+            picturePath: '/static/maps/ohta.jpg',
+            text: 'Охта - Ohta reasearch',
+            link: 'https://app.latl.ng/map/55PO6VNLVJQ8HIQ4'
+        },
+        {
+            picturePath: '/static/maps/pitkaranta.jpg',
+            text: 'Питкяранта - Pitkaranta',
+            link: 'https://app.latl.ng/map/pitkaranta',
+        },
+        {
+            picturePath: '/static/maps/uray-research.jpg',
+            text: 'Урай волонтеры - Uray reasearch',
+            link: 'https://uray.unit4.io/map',
+        },
+        {
+            picturePath: '/static/maps/pitkaranta-research.jpg',
+            text: 'Питкяранта карта памяти - Pitkaranta research',
+            link: 'https://app.latl.ng/map/ID0OT642D8TRHKGP',
         },
     ]
 
@@ -37,10 +56,11 @@ export const Examples: React.FC = () => {
                 flexWrap: 'wrap',
             }}
         >
-            {examples.map(({ picturePath, text }, index) => (
+            {examples.map(({ picturePath, text, link }, index) => (
                 <LinkContainer
                     key={index}
-                    url='' 
+                    url={link}
+                    external
                     style={{
                         flex: '0 0 30%',
                         marginBottom: '5%',
@@ -63,9 +83,10 @@ export const Examples: React.FC = () => {
                         }}
                     >
                             <h2 style={{
-                                position: 'relative',
-                                top: '5%',
-                                left: '5%',
+                                paddingTop: '5%',
+                                paddingLeft: '5%',
+                                width: '90%',
+                                flex: 1,
                             }}>
                                 {text}
                             </h2>  
@@ -76,7 +97,7 @@ export const Examples: React.FC = () => {
                             }}>
                                 {'-->'}
                             </Highlighted>
-                        <div/>
+                            <div style={{ flex: 1 }} />
                     </div>
                 </Glitch>
             </LinkContainer>

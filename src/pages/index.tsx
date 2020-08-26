@@ -6,13 +6,19 @@ import dynamic from 'next/dynamic'
 import { Examples } from '../components/Examples'
 import Hero from '../components/Hero'
 import About from '../components/About'
+import Head from 'next/head'
+import { Meta, IMeta } from '../components/Meta'
 
 const Zalipuha = dynamic(
     () => import('../components/Zalipuha'),
     { ssr: false }
 )
 
-const Index: NextPage = () => {
+interface IPageProps  {
+    meta: IMeta
+}
+
+const Index: NextPage<IPageProps> = ({ meta }) => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
@@ -29,6 +35,10 @@ const Index: NextPage = () => {
         
     return (
         <>
+            <Head>
+                <title>LATL.NG</title>
+                <Meta meta={meta} />
+            </Head>
             <Zalipuha 
                 mouse={mouse}
                 rotation={rotation}
@@ -77,6 +87,32 @@ const Index: NextPage = () => {
             </main>
         </>
     )
+}
+
+export const getStaticProps = async () => {
+    const meta: IMeta = {
+        title: 'LATL.NG',
+        description: 'НЕРЕАЛЬНО КРУТОЙ ГИС ! ! ! КУПИ! КУПИ! КУПИ! КУПИ! КУПИ!',
+        image: 'https://latlng-site.now.sh/static/cat.png',
+        imageWidth: 50,
+        imageHeight: 50,
+
+        url: null, // 'https://берегурай.рф/',
+        siteName: 'LATL.NG',
+        locale: 'ru_RU',
+        type: 'website',
+        domain: null, // 'берегурай.рф',
+
+        twitterCard: 'summary_large_image',
+        twitterSite: '@',
+        twitterCreator: '@tmshv',
+    }
+
+    return {
+        props: {
+            meta,
+        }
+    }
 }
 
 export default Index
