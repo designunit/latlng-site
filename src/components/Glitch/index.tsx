@@ -1,39 +1,38 @@
 import s from './styles.module.css'
-import highlightedStyles from '../Highlighted/styles.module.css'
-import { CSSProperties } from 'react'
 
 const url = (src: string) => `url(${src})`
 
 interface GlitchProps {
     image: string
-    style?: CSSProperties
+    style?: React.CSSProperties
 }
 
 export const Glitch: React.FC<GlitchProps> = props => (
-    <div className={`${s.imageGlitch} ${highlightedStyles.highlightedParent}`}
+    <div className={s.glitch}
         style={props.style}
     >
-        <div className={s.imageDistortion}
+        <div className={s.distortion}
             style={{
                 backgroundImage: url(props.image),
                 zIndex: 0,
             }}
         />
-        <div className={s.imageDistortion} id={s.red}
+        <div className={s.distortion} id={s.red}
             style={{
                 backgroundImage: url(props.image),
             }}
         />
-        <div className={s.imageDistortion} id={s.cyan}
+        <div className={s.distortion} id={s.cyan}
             style={{
                 backgroundImage: url(props.image),
             }}
         />
-        <div className={s.imageDistortion} id={s.transparent}
+        <div className={s.distortion} id={s.transparent}
             style={{
                 backgroundImage: url(props.image),
             }}
         />
+
         {props.children}
     </div>
 )

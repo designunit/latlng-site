@@ -1,4 +1,4 @@
-.imageGlitch:hover::before {
+.glitch:hover::before {
     content: '';
     position: absolute;
     z-index: 1;
@@ -10,7 +10,7 @@
     animation: img-glitch-cyan 4s infinite linear alternate-reverse;
 }
 
-.imageGlitch:hover::after {
+.glitch:hover::after {
     content: '';
     position: absolute;
     top: 0;
@@ -22,12 +22,12 @@
 }
 
 /* https://codepen.io/TomasKosik/pen/aKxzVG */
-.imageGlitch {
+.glitch {
     position: relative;
     overflow: hidden;
 }
 
-.imageDistortion {
+.distortion {
     position: absolute;
     top: 0;
     left: 0;
@@ -39,15 +39,15 @@
     overflow: hidden;
 }
 
-.imageGlitch:hover #red {
+.glitch:hover #red {
     animation: img-glitch-red 4s infinite linear alternate-reverse both;
 }
 
-.imageGlitch:hover #cyan {
+.glitch:hover #cyan {
     animation: img-glitch-cyan 5s infinite linear alternate both;
 }
 
-.imageGlitch:hover #transparent {
+.glitch:hover #transparent {
     animation: img-glitch-transparent 4s infinite linear alternate-reverse both;
 }
 
