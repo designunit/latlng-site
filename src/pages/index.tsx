@@ -93,7 +93,7 @@ export const getStaticProps = async () => {
     const meta: IMeta = {
         title: 'LATL.NG',
         description: 'НЕРЕАЛЬНО КРУТОЙ ГИС ! ! ! КУПИ! КУПИ! КУПИ! КУПИ! КУПИ!',
-        image: 'https://latlng-site.now.sh/static/cat.png',
+        image: 'https://latlng-site.now.sh/static/latlng.jpg',
         imageWidth: 50,
         imageHeight: 50,
 
