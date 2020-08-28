@@ -3,6 +3,7 @@ import { LinkContainer } from '../LinkContainer'
 import { Glitch } from '../Glitch'
 import { Highlighted } from '../Highlighted'
 import { createBreakpoint } from 'react-use'
+import { Item } from './Item'
 
 const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
@@ -34,6 +35,7 @@ export const Examples: React.FC<ExamplesProps> = props => {
                     style={{
                         flex: '0 0 30%',
                         marginBottom: '5%',
+                        position: 'relative',
                     }}
                 >
                     <Glitch image={imageSrc}
@@ -41,35 +43,37 @@ export const Examples: React.FC<ExamplesProps> = props => {
                             height: '250px',
                         }}
                     >
-                        <div
-                            className='highlightedParent'
+                    </Glitch>
+                    <Item style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                    }}>
+                        <Highlighted
+                            as={'h2'}
+                            color={'var(--color)'}
                             style={{
-                                height: '100%',
-                                position: 'relative',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                alignItems: 'start',
+                                // alignSelf: 'flex-end',
+                                color: 'var(--color-white)'
                             }}
                         >
-                            <h2 style={{
-                                paddingTop: '5%',
-                                paddingLeft: '5%',
-                                width: '90%',
-                                flex: 1,
-                            }}>
-                                {label}
-                            </h2>
+                            {label}
+                        </Highlighted>
 
-                            <Highlighted style={{
-                                width: 'fit-content',
-                                fontSize: '1.2rem',
-                            }}>
-                                {'-->'}
-                            </Highlighted>
-                            <div style={{ flex: 1 }} />
-                        </div>
-                    </Glitch>
+                        <div style={{ flex: 1 }} />
+
+                        <Highlighted
+                            color={'var(--color)'}
+                            style={{
+                                alignSelf: 'flex-end',
+                                color: 'var(--color-white)'
+                            }}
+                        >
+                            {'⟶'}
+                        </Highlighted>
+                    </Item>
                 </LinkContainer>
             ))}
         </Section>
