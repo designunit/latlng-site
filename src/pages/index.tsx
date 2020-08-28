@@ -1,17 +1,12 @@
 import { NextPage, GetStaticProps } from 'next'
-import { useState, useCallback } from 'react'
-import dynamic from 'next/dynamic'
+import { useRef, useState, useCallback, MouseEventHandler } from 'react'
 import { Examples } from '../components/Examples'
 import Hero from '../components/Hero'
 import About from '../components/About'
 import Head from 'next/head'
 import { Meta, IMeta } from '../components/Meta'
 import { GalleryItem } from '@/app/types'
-
-const Zalipuha = dynamic(
-    () => import('../components/Zalipuha'),
-    { ssr: false }
-)
+import { Zalipuha } from '@/components/Zalipuha'
 
 type Props = {
     meta: IMeta
@@ -19,19 +14,12 @@ type Props = {
 }
 
 const Index: NextPage<Props> = props => {
-    const [rotation, setRotation] = useState(0)
-    const [mouse, setMouse] = useState(null)
-    const [mousePos, setMousePos] = useState<[number, number]>(null)
-    const mouseSpeed = .1
-    const setMouseNull = useCallback(event => setMouse(null), [])
-    const setMouseZero = useCallback(event => setMouse(0), [])
-    const onMouseMove = useCallback(event => {
-        const eventDelta = event.movementX * mouseSpeed * devicePixelRatio
-        event.buttons === 1
-            ? setMouse(eventDelta)
-            : setMouse(null)
+    const mouseTargetRef = useRef<HTMLDivElement>(null)
+    const [mousePos, setMousePos] = useState<[number, number]>([0, 0])
+
+    const onMouseMove = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
         setMousePos([event.clientX, event.clientY])
-    }, [mouse])
+    }, [])
 
     return (
         <>
@@ -40,23 +28,23 @@ const Index: NextPage<Props> = props => {
                 <Meta meta={props.meta} />
             </Head>
             <Zalipuha
-                mouse={mouse}
-                rotation={rotation}
-                setRotation={setRotation}
+                ref={mouseTargetRef}
             />
             <main style={{
-                position : 'relative',
+                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
                 {/* container for zalipuha interaction  */}
                 <div
+                    ref={mouseTargetRef}
+                    onMouseMove={onMouseMove}
                     style={{
                         width: '100%',
                         height: '100%',
 
-                        position : 'relative',
+                        position: 'relative',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -64,14 +52,10 @@ const Index: NextPage<Props> = props => {
                         userSelect: 'none',
                         WebkitUserSelect: 'none',
                     }}
-                    onMouseDown={event => setMouseZero(event)}
-                    onMouseUp={event => setMouseNull(event)}
-                    onMouseMove={onMouseMove}
-                    onMouseLeave={event => setMouseNull(event)}
                 >
                     <Hero
-                        mouse={mouse}
-                        rotation={rotation}
+                        mouse={0}
+                        rotation={0}
                         mousePos={mousePos}
                     />
                     <span id='about' />
