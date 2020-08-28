@@ -110,8 +110,8 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         // simple circle
         ctx.beginPath()
         path({ type: 'Sphere' })
-        ctx.lineWidth = 1
-        ctx.strokeStyle = `${colorSecondary}88`
+        ctx.lineWidth = 2
+        ctx.strokeStyle = `${colorSecondary}95`
         ctx.stroke()
 
         // draw continents mask
