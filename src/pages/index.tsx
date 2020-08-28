@@ -92,7 +92,7 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
 export const getStaticProps = async () => {
     const meta: IMeta = {
         title: 'LATL.NG',
-        description: 'НЕРЕАЛЬНО КРУТОЙ ГИС ! ! ! КУПИ! КУПИ! КУПИ! КУПИ! КУПИ!',
+        description: 'cloud geoinformation system',
         image: 'https://latlng-site.now.sh/static/latlng.jpg',
         imageWidth: 50,
         imageHeight: 50,
