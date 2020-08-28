@@ -69,19 +69,14 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
                     onMouseMove={onMouseMove}
                     onMouseLeave={event => setMouseNull(event)}
                 >
-                    {/* HERO */}
                     <Hero 
                         mouse={mouse}
                         rotation={rotation}
                         mousePos={mousePos}
                     />
-
-                    {/* ABOUT */}
                     <span id='about' />
                     <About />
                 </div>
-
-                {/* EXAMPLES */}
                 <span id='examples' />
                 <Examples />
             </main>
