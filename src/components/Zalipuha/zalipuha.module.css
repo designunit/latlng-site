@@ -1,0 +1,12 @@
+.container {
+    --top: 0;
+    position: absolute;
+    left: 20%;
+    top: var(--top);
+    overflow: hidden;
+    max-width: 80%;
+}
+
+.container.desktop {
+    --top: -50%;
+}
