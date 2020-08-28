@@ -1,6 +1,4 @@
 import { NextPage, GetStaticProps } from 'next'
-import { Section } from '../components/Section'
-import { Ratio } from '../components/Ratio'
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { Examples } from '../components/Examples'
@@ -24,7 +22,7 @@ const Index: NextPage<Props> = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
-    const mouseSpeed = .1  
+    const mouseSpeed = .1
     const setMouseNull = useCallback(event => setMouse(null), [])
     const setMouseZero = useCallback(event => setMouse(0), [])
     const onMouseMove = useCallback(event => {
@@ -34,14 +32,14 @@ const Index: NextPage<Props> = props => {
             : setMouse(null)
         setMousePos([event.clientX, event.clientY])
     }, [mouse])
-        
+
     return (
         <>
             <Head>
                 <title>LATL.NG</title>
                 <Meta meta={props.meta} />
             </Head>
-            <Zalipuha 
+            <Zalipuha
                 mouse={mouse}
                 rotation={rotation}
                 setRotation={setRotation}
@@ -53,11 +51,11 @@ const Index: NextPage<Props> = props => {
                 alignItems: 'center',
             }}>
                 {/* container for zalipuha interaction  */}
-                <div 
+                <div
                     style={{
                         width: '100%',
                         height: '100%',
-                        
+
                         position : 'relative',
                         display: 'flex',
                         flexDirection: 'column',
@@ -72,7 +70,7 @@ const Index: NextPage<Props> = props => {
                     onMouseLeave={event => setMouseNull(event)}
                 >
                     {/* HERO */}
-                    <Hero 
+                    <Hero
                         mouse={mouse}
                         rotation={rotation}
                         mousePos={mousePos}
