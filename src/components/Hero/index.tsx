@@ -1,4 +1,3 @@
-import { createBreakpoint } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
@@ -12,10 +11,9 @@ interface HeroProps {
     mousePos: [number, number]
 }
 
-const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
-
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const isMobile = breakpoint() === 'mobile'
+    const isMobile = useMobile()
+    const mp = mousePos ?? [0, 0]
 
     return (
         <Section style={{
@@ -25,21 +23,8 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             flexWrap: 'wrap',
             alignContent: 'space-between',
         }}>
-            <h1 style={{
-                flex: isMobile ? '1 0 100%' : '1 0 50%',
-            }}>
-                <span style={{
-                    userSelect: 'text',
-                    WebkitUserSelect: 'text',
-                }}>
-                    LATL.NG<br/>
-                    <span style={{
-                        fontSize : isMobile ? '26px' : null
-                    }}>
-                        cloud geoinformation system
-                    </span>
-                </span>
-            </h1>
+            <Title />
+
             {isMobile ? null : (
                 <>
                     <div style={{
