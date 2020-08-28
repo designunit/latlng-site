@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+import { NextPage, GetStaticProps } from 'next'
 import { Section } from '../components/Section'
 import { Ratio } from '../components/Ratio'
 import { useState, useCallback } from 'react'
@@ -8,17 +8,19 @@ import Hero from '../components/Hero'
 import About from '../components/About'
 import Head from 'next/head'
 import { Meta, IMeta } from '../components/Meta'
+import { GalleryItem } from '@/app/types'
 
 const Zalipuha = dynamic(
     () => import('../components/Zalipuha'),
     { ssr: false }
 )
 
-interface IPageProps  {
+type Props = {
     meta: IMeta
+    examples: GalleryItem[]
 }
 
-const Index: NextPage<IPageProps> = ({ meta }) => {
+const Index: NextPage<Props> = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
@@ -37,7 +39,7 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
         <>
             <Head>
                 <title>LATL.NG</title>
-                <Meta meta={meta} />
+                <Meta meta={props.meta} />
             </Head>
             <Zalipuha 
                 mouse={mouse}
@@ -83,13 +85,13 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
 
                 {/* EXAMPLES */}
                 <span id='examples' />
-                <Examples />
+                <Examples items={props.examples} />
             </main>
         </>
     )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ctx => {
     const meta: IMeta = {
         title: 'LATL.NG',
         description: 'cloud geoinformation system',
@@ -108,9 +110,48 @@ export const getStaticProps = async () => {
         twitterCreator: '@tmshv',
     }
 
+    const examples = [
+        {
+            imageSrc: '/static/maps/uray.jpg',
+            label: 'Берегурай - Uray',
+            href: 'https://app.latl.ng/map/bereguray',
+        },
+        {
+            imageSrc: '/static/maps/nyagan.jpg',
+            label: 'Нягань - Nyagan',
+            href: 'https://app.latl.ng/map/nyagan',
+        },
+        {
+            imageSrc: '/static/maps/oymyakon.jpg',
+            label: 'Оймякон - Oymyakon',
+            href: 'https://oymyakon.unit4.io',
+        },
+        {
+            imageSrc: '/static/maps/ohta.jpg',
+            label: 'Охта - Ohta reasearch',
+            href: 'https://app.latl.ng/map/55PO6VNLVJQ8HIQ4'
+        },
+        {
+            imageSrc: '/static/maps/pitkaranta.jpg',
+            label: 'Питкяранта - Pitkaranta',
+            href: 'https://app.latl.ng/map/pitkaranta',
+        },
+        {
+            imageSrc: '/static/maps/uray-research.jpg',
+            label: 'Урай волонтеры - Uray reasearch',
+            href: 'https://uray.unit4.io/map',
+        },
+        {
+            imageSrc: '/static/maps/pitkaranta-research.jpg',
+            label: 'Питкяранта карта памяти - Pitkaranta research',
+            href: 'https://app.latl.ng/map/ID0OT642D8TRHKGP',
+        },
+    ]
+
     return {
         props: {
             meta,
+            examples,
         }
     }
 }
