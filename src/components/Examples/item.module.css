@@ -1,0 +1,8 @@
+.item {
+    --color: var(--color-secondary);
+
+}
+
+.item:hover {
+    --color: var(--color-primary);
+}

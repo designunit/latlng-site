@@ -1,6 +1,4 @@
-import { NextPage } from 'next'
-import { Section } from '../components/Section'
-import { Ratio } from '../components/Ratio'
+import { NextPage, GetStaticProps } from 'next'
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { Examples } from '../components/Examples'
@@ -8,21 +6,23 @@ import Hero from '../components/Hero'
 import About from '../components/About'
 import Head from 'next/head'
 import { Meta, IMeta } from '../components/Meta'
+import { GalleryItem } from '@/app/types'
 
 const Zalipuha = dynamic(
     () => import('../components/Zalipuha'),
     { ssr: false }
 )
 
-interface IPageProps  {
+type Props = {
     meta: IMeta
+    examples: GalleryItem[]
 }
 
-const Index: NextPage<IPageProps> = ({ meta }) => {
+const Index: NextPage<Props> = props => {
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const [mousePos, setMousePos] = useState<[number, number]>(null)
-    const mouseSpeed = .1  
+    const mouseSpeed = .1
     const setMouseNull = useCallback(event => setMouse(null), [])
     const setMouseZero = useCallback(event => setMouse(0), [])
     const onMouseMove = useCallback(event => {
@@ -32,14 +32,14 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
             : setMouse(null)
         setMousePos([event.clientX, event.clientY])
     }, [mouse])
-        
+
     return (
         <>
             <Head>
                 <title>LATL.NG</title>
-                <Meta meta={meta} />
+                <Meta meta={props.meta} />
             </Head>
-            <Zalipuha 
+            <Zalipuha
                 mouse={mouse}
                 rotation={rotation}
                 setRotation={setRotation}
@@ -51,11 +51,11 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
                 alignItems: 'center',
             }}>
                 {/* container for zalipuha interaction  */}
-                <div 
+                <div
                     style={{
                         width: '100%',
                         height: '100%',
-                        
+
                         position : 'relative',
                         display: 'flex',
                         flexDirection: 'column',
@@ -69,7 +69,7 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
                     onMouseMove={onMouseMove}
                     onMouseLeave={event => setMouseNull(event)}
                 >
-                    <Hero 
+                    <Hero
                         mouse={mouse}
                         rotation={rotation}
                         mousePos={mousePos}
@@ -78,17 +78,17 @@ const Index: NextPage<IPageProps> = ({ meta }) => {
                     <About />
                 </div>
                 <span id='examples' />
-                <Examples />
+                <Examples items={props.examples} />
             </main>
         </>
     )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ctx => {
     const meta: IMeta = {
         title: 'LATL.NG',
-        description: 'НЕРЕАЛЬНО КРУТОЙ ГИС ! ! ! КУПИ! КУПИ! КУПИ! КУПИ! КУПИ!',
-        image: 'https://latlng-site.now.sh/static/cat.png',
+        description: 'cloud geoinformation system',
+        image: 'https://latlng-site.now.sh/static/latlng.jpg',
         imageWidth: 50,
         imageHeight: 50,
 
@@ -103,9 +103,48 @@ export const getStaticProps = async () => {
         twitterCreator: '@tmshv',
     }
 
+    const examples = [
+        {
+            imageSrc: '/static/maps/uray.jpg',
+            label: 'Берегурай - Uray',
+            href: 'https://app.latl.ng/map/bereguray',
+        },
+        {
+            imageSrc: '/static/maps/nyagan.jpg',
+            label: 'Нягань - Nyagan',
+            href: 'https://app.latl.ng/map/nyagan',
+        },
+        {
+            imageSrc: '/static/maps/oymyakon.jpg',
+            label: 'Оймякон - Oymyakon',
+            href: 'https://oymyakon.unit4.io',
+        },
+        {
+            imageSrc: '/static/maps/ohta.jpg',
+            label: 'Охта - Ohta reasearch',
+            href: 'https://app.latl.ng/map/55PO6VNLVJQ8HIQ4'
+        },
+        {
+            imageSrc: '/static/maps/pitkaranta.jpg',
+            label: 'Питкяранта - Pitkaranta',
+            href: 'https://app.latl.ng/map/pitkaranta',
+        },
+        {
+            imageSrc: '/static/maps/uray-research.jpg',
+            label: 'Урай волонтеры - Uray reasearch',
+            href: 'https://uray.unit4.io/map',
+        },
+        {
+            imageSrc: '/static/maps/pitkaranta-research.jpg',
+            label: 'Питкяранта карта памяти - Pitkaranta research',
+            href: 'https://app.latl.ng/map/ID0OT642D8TRHKGP',
+        },
+    ]
+
     return {
         props: {
             meta,
+            examples,
         }
     }
 }

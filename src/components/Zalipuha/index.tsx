@@ -32,7 +32,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         [72.42099035441424, -29.84503313630067],
         [-92.40387452005182, 20.1722585434017],
         [154.88855888496272, -45.3358210847797],
-    ].sort((a,b) => a[0] - b[0])
+    ].sort((a, b) => a[0] - b[0])
     const catPaths = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(catPaths.map(() => useRef(null))) // ref[]
 
@@ -65,7 +65,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
     const wirframe = geoGraticule10()
 
     useEffect(() => {
-        projection.fitExtent([[0,0], [width, height]], wirframe)
+        projection.fitExtent([[0, 0], [width, height]], wirframe)
     }, [projection, width])
 
     const colorSecondary = '#BB86FC'
@@ -99,7 +99,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
 
         // draw points back
         ctx.beginPath()
-        path({type: "MultiPoint", coordinates: points})
+        path({ type: "MultiPoint", coordinates: points })
         ctx.fillStyle = `${colorSecondary}44`
         ctx.fill()
 
@@ -109,14 +109,27 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
 
         // simple circle
         ctx.beginPath()
-        path({type: 'Sphere'})
+        path({ type: 'Sphere' })
         ctx.lineWidth = 1
         ctx.strokeStyle = `${colorSecondary}88`
         ctx.stroke()
 
+        // draw continents mask
+        // ctx.save()
+        // ctx.beginPath()
+        // ctx.rect(0, (time*.2 - height/2) % (Math.max(height*2, 3000)), width, -height*.1)
+        // ctx.clip()
+
+        // draw continents
+        // ctx.beginPath()
+        // path(land)
+        // ctx.strokeStyle = `${colorPrimary}`
+        // ctx.stroke()
+        // ctx.restore()
+
         // draw points front
         ctx.beginPath()
-        path({type: "MultiPoint", coordinates: points})
+        path({ type: "MultiPoint", coordinates: points })
         ctx.fillStyle = `${colorSecondary}88`
         ctx.fill()
 
@@ -129,7 +142,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
 
         // draw offscreen canvas
         points.map((coords, index) => {
-            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
+            let cursor: number[] = path.centroid({ type: "Point", coordinates: coords })
             cursor[0] -= 1
             cursor[1] -= 101
 
@@ -140,15 +153,15 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         ctx.save()
         ctx.beginPath()
         points.map((coords, index) => {
-            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
+            let cursor: number[] = path.centroid({ type: "Point", coordinates: coords })
             cursor = [cursor[0] + 53, cursor[1] - 70]
             ctx.moveTo(...cursor)
-            ctx.arc(cursor[0] - 23, cursor[1], 23, 0, Math.PI*2)
+            ctx.arc(cursor[0] - 23, cursor[1], 23, 0, Math.PI * 2)
         })
         ctx.clip()
 
         points.map((coords, index) => {
-            let cursor: number[] = path.centroid({type: "Point", coordinates: coords})
+            let cursor: number[] = path.centroid({ type: "Point", coordinates: coords })
             cursor = [cursor[0] + 5, cursor[1] - 45]
             ctx.drawImage(refCats.current[index].current, ...cursor, 50, -50)
         })
@@ -157,7 +170,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
 
     // draw squares and lines in offscreen canvas
     useEffect(() => {
-        if(pointCtx) {
+        if (pointCtx) {
             let cursor = [1, 101]
             pointCtx.lineWidth = 1
 
@@ -178,7 +191,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
             // avatar frame
             cursor = [cursor[0] + 5 + 50, cursor[1] - 5 - 25]
             pointCtx.moveTo(...cursor)
-            pointCtx.arc(cursor[0] - 25, cursor[1], 25, 0, Math.PI*2)
+            pointCtx.arc(cursor[0] - 25, cursor[1], 25, 0, Math.PI * 2)
             pointCtx.strokeStyle = `${colorPrimary}88`
             pointCtx.stroke()
 
@@ -193,9 +206,9 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
 
             // text second row
             cursor = [cursor[0] - 45, cursor[1] + 13]
-            pointCtx.fillRect(...cursor, 35/2, 5)
-            cursor = [cursor[0] + 35/2 + 5, cursor[1]]
-            pointCtx.fillRect(...cursor, 35/2, 5)
+            pointCtx.fillRect(...cursor, 35 / 2, 5)
+            cursor = [cursor[0] + 35 / 2 + 5, cursor[1]]
+            pointCtx.fillRect(...cursor, 35 / 2, 5)
 
             // text long rows
             cursor = [cursor[0] - 35 / 2 - 5, cursor[1] + 8]
