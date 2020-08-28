@@ -22,14 +22,14 @@ body {
 
     font-size: var(--font-size);
     font-family: var(--font-family);
-    line-height: 200%;
+    /* line-height: 200%; */
 
     color: var(--color-white);
 
     background-color: var(--color-bg);
 }
 
-* { 
+* {
     box-sizing: border-box;
 }
 
@@ -49,6 +49,6 @@ h2 {
     line-height: 21px;
 
     margin: 0px;
-    
+
     color: var(--color-primary);
 }
