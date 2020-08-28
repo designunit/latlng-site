@@ -38,38 +38,37 @@ export const Examples: React.FC<ExamplesProps> = props => {
                         position: 'relative',
                     }}
                 >
-                    <Glitch image={imageSrc}
-                        style={{
-                            height: '250px',
-                        }}
-                    >
-                    </Glitch>
                     <Item style={{
-                        pointerEvents: 'none',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
+                        border: '2px solid var(--color)',
                     }}>
+                        <Glitch image={imageSrc}
+                            style={{
+                                height: '250px',
+                            }}
+                        >
+                        </Glitch>
                         <Highlighted
                             as={'h2'}
                             color={'var(--color)'}
                             style={{
-                                // alignSelf: 'flex-end',
-                                color: 'var(--color-white)'
+                                color: 'var(--color-white)',
+
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
                             }}
                         >
                             {label}
                         </Highlighted>
 
-                        <div style={{ flex: 1 }} />
-
                         <Highlighted
                             color={'var(--color)'}
                             style={{
-                                alignSelf: 'flex-end',
-                                color: 'var(--color-white)'
+                                color: 'var(--color-white)',
+
+                                position: 'absolute',
+                                bottom: 0,
+                                right: 0,
                             }}
                         >
                             {'⟶'}
@@ -77,6 +76,6 @@ export const Examples: React.FC<ExamplesProps> = props => {
                     </Item>
                 </Link>
             ))}
-        </Section>
+        </Section >
     )
 }

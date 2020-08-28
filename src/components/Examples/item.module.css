@@ -1,11 +1,6 @@
 .item {
     --color: var(--color-secondary);
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    border: 2px solid var(--color);
 }
 
 .item:hover {
