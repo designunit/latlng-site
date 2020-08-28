@@ -1,3 +1,4 @@
+import { createBreakpoint } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
@@ -8,12 +9,13 @@ import { ZalipuhaStat } from "../ZalipuhaStat"
 interface HeroProps {
     mouse: number
     rotation: number
-    mousePos: any
+    mousePos: [number, number]
 }
 
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
+
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const isMobile = useMobile()
-    const mp = mousePos ?? [0, 0]
+    const isMobile = breakpoint() === 'mobile'
 
     return (
         <Section style={{
@@ -23,10 +25,21 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             flexWrap: 'wrap',
             alignContent: 'space-between',
         }}>
-            <Title style={{
-                flex: '1 0 50%',
-            }} />
-
+            <h1 style={{
+                flex: isMobile ? '1 0 100%' : '1 0 50%',
+            }}>
+                <span style={{
+                    userSelect: 'text',
+                    WebkitUserSelect: 'text',
+                }}>
+                    LATL.NG<br/>
+                    <span style={{
+                        fontSize : isMobile ? '26px' : null
+                    }}>
+                        cloud geoinformation system
+                    </span>
+                </span>
+            </h1>
             {isMobile ? null : (
                 <>
                     <div style={{
@@ -48,7 +61,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             <div style={{
                 flex: '1 0 50%',
             }}>
-                <span style={{
+                <div style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'start',
@@ -66,7 +79,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                             work examples
                         </LinkText>
                     </LinkContainer>
-                </span>
+                </div>
             </div>
             {isMobile ? null : (
                 <div style={{
@@ -78,11 +91,16 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                         userSelect: 'text',
                         WebkitUserSelect: 'text',
                     }}>
-                        <LinkContainer url='mailto:inbox@unit4.io'>
+                        <a
+                            href='mailto:inbox@unit4.io'
+                            style={{
+                                textDecoration: 'none',
+                            }}
+                        >
                             <LinkText>
                                 inbox@unit4.io
                             </LinkText>
-                        </LinkContainer>
+                        </a>
                     </span>
                 </div>
             )}

@@ -1,19 +1,20 @@
 import { Section } from "../Section"
 import { Ratio } from "../Ratio"
 import { Highlighted } from "../Highlighted"
-import { useMedia } from "react-use"
+import { createBreakpoint } from "react-use"
 
+const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
 const About: React.FC = props => {
-    const isMobile = useMedia('(max-width: 768px)', false)
+    const isMobile = breakpoint() === 'mobile' 
     
     return (
         <Section style={{
             userSelect: 'none',
         }}>
             <Ratio
-                left={7}
-                right={3}
+                left={isMobile ? 1 : 7}
+                right={isMobile ? 0 : 3}
                 leftContent={(
                     <div style={{
                         userSelect: 'text',

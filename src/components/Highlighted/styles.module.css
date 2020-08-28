@@ -2,7 +2,13 @@
     color: var(--color-bg);
     background-color: var(--color-secondary);
     font-weight: bold;
+    position: relative;
 
     padding-left: .5rem;
     padding-right: .5rem;
+}
+
+.highlightedParent:hover .highlight {
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
