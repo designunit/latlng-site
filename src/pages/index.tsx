@@ -106,37 +106,37 @@ export const getStaticProps: GetStaticProps<Props> = async ctx => {
     const examples = [
         {
             imageSrc: '/static/maps/uray.jpg',
-            label: 'Берегурай - Uray',
+            label: '#берегурай',
             href: 'https://app.latl.ng/map/bereguray',
         },
         {
             imageSrc: '/static/maps/nyagan.jpg',
-            label: 'Нягань - Nyagan',
+            label: 'Nyagan',
             href: 'https://app.latl.ng/map/nyagan',
         },
         {
             imageSrc: '/static/maps/oymyakon.jpg',
-            label: 'Оймякон - Oymyakon',
+            label: 'Oymyakon',
             href: 'https://oymyakon.unit4.io',
         },
         {
             imageSrc: '/static/maps/ohta.jpg',
-            label: 'Охта - Ohta reasearch',
+            label: 'Ohta reasearch',
             href: 'https://app.latl.ng/map/55PO6VNLVJQ8HIQ4'
         },
         {
             imageSrc: '/static/maps/pitkaranta.jpg',
-            label: 'Питкяранта - Pitkaranta',
+            label: 'Pitkaranta',
             href: 'https://app.latl.ng/map/pitkaranta',
         },
         {
             imageSrc: '/static/maps/uray-research.jpg',
-            label: 'Урай волонтеры - Uray reasearch',
+            label: 'Uray reasearch',
             href: 'https://uray.unit4.io/map',
         },
         {
             imageSrc: '/static/maps/pitkaranta-research.jpg',
-            label: 'Питкяранта карта памяти - Pitkaranta research',
+            label: 'Pitkaranta research',
             href: 'https://app.latl.ng/map/ID0OT642D8TRHKGP',
         },
     ]
