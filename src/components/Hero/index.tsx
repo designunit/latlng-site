@@ -1,4 +1,4 @@
-import { LinkContainer } from "../LinkContainer"
+import { Link } from "../Link"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
 import { Title } from "./Title"
@@ -54,16 +54,16 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                     WebkitUserSelect: 'text',
                     width: 'fit-content',
                 }}>
-                    <LinkContainer url='#about'>
+                    <Link url='#about'>
                         <LinkText>
                             what's latl.ng?
                         </LinkText>
-                    </LinkContainer>
-                    <LinkContainer url='#examples'>
+                    </Link>
+                    <Link url='#examples'>
                         <LinkText>
                             work examples
                         </LinkText>
-                    </LinkContainer>
+                    </Link>
                 </div>
             </div>
             {isMobile ? null : (

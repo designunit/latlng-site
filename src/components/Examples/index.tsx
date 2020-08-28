@@ -1,5 +1,5 @@
 import { Section } from '../Section'
-import { LinkContainer } from '../LinkContainer'
+import { Link } from '../Link'
 import { Glitch } from '../Glitch'
 import { Highlighted } from '../Highlighted'
 import { createBreakpoint } from 'react-use'
@@ -28,7 +28,7 @@ export const Examples: React.FC<ExamplesProps> = props => {
             }}
         >
             {props.items.map(({ imageSrc, label, href }, index) => (
-                <LinkContainer
+                <Link
                     key={index}
                     url={href}
                     external
@@ -45,6 +45,7 @@ export const Examples: React.FC<ExamplesProps> = props => {
                     >
                     </Glitch>
                     <Item style={{
+                        pointerEvents: 'none',
                         position: 'absolute',
                         top: 0,
                         left: 0,
@@ -74,7 +75,7 @@ export const Examples: React.FC<ExamplesProps> = props => {
                             {'⟶'}
                         </Highlighted>
                     </Item>
-                </LinkContainer>
+                </Link>
             ))}
         </Section>
     )
