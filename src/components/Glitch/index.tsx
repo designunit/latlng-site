@@ -11,9 +11,10 @@ export const Glitch: React.FC<GlitchProps> = props => (
     <div className={`${s.imageGlitch} ${highlightedStyles.highlightedParent}`}
         style={props.style}
     >
-        <div className={s.imageDistortion} id={s.base}
+        <div className={s.imageDistortion}
             style={{
                 backgroundImage: props.image,
+                zIndex: 0,
             }}
         />
         <div className={s.imageDistortion} id={s.red}

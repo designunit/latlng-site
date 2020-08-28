@@ -48,10 +48,6 @@
     overflow: hidden;
 }
 
-#base {
-    z-index: 0;
-}
-
 .imageGlitch:hover #red {
     animation: img-glitch-red 4s infinite linear alternate-reverse both;
 }
