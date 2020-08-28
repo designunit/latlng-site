@@ -1,7 +1,9 @@
-import { createBreakpoint } from "react-use"
 import { LinkContainer } from "../LinkContainer"
 import { LinkText } from "../LinkText"
 import { Section } from "../Section"
+import { Title } from "./Title"
+import { useMobile } from "@/hooks/useMobile"
+import { ZalipuhaStat } from "../ZalipuhaStat"
 
 interface HeroProps {
     mouse: number
@@ -9,10 +11,9 @@ interface HeroProps {
     mousePos: [number, number]
 }
 
-const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
-
 const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
-    const isMobile = breakpoint() === 'mobile' 
+    const isMobile = useMobile()
+    const mp = mousePos ?? [0, 0]
 
     return (
         <Section style={{
@@ -22,46 +23,33 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
             flexWrap: 'wrap',
             alignContent: 'space-between',
         }}>
-            <h1 style={{
-                flex: isMobile ? '1 0 100%' : '1 0 50%',
-            }}>
-                <span style={{
-                    userSelect: 'text',
-                    WebkitUserSelect: 'text',
-                }}>
-                    LATL.NG<br/>
-                    <span style={{
-                        fontSize : isMobile ? '26px' : null
-                    }}>
-                        cloud geoinformation system
-                    </span>
-                </span>
-            </h1>
+            <Title />
+
             {isMobile ? null : (
-                <div style={{
-                    flex: '1 0 50%', 
-                    alignSelf: 'flex-end',
-                    alignItems: 'end',
-                    textAlign: 'end', 
-                }}>
-                    <span style={{
-                        userSelect: 'text',
-                        WebkitUserSelect: 'text',
+                <>
+                    <div style={{
+                        flex: '1 0 50%',
+                        alignSelf: 'flex-end',
+                        alignItems: 'end',
+                        textAlign: 'end',
                     }}>
-                        angle: {(Math.abs(rotation % 360)).toFixed(4)} <br/>
-                        speed: {(mouse ?? .05).toFixed(4)} <br/>
-                        cursor X: {`${!mousePos ? 'not detected' : mousePos[0].toFixed(4)}`} <br/>
-                        cursor Y: {`${!mousePos ? 'not detected' : mousePos[1].toFixed(4)}`} <br/>
-                    </span>
-                </div>
+                        <ZalipuhaStat
+                            formatPattern={'0000.0000'}
+                            rotation={rotation}
+                            mouseSpeed={mouse}
+                            mouseX={mp[0]}
+                            mouseY={mp[1]}
+                        />
+                    </div>
+                </>
             )}
             <div style={{
-                flex: '1 0 50%',    
+                flex: '1 0 50%',
             }}>
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'start', 
+                    alignItems: 'start',
                     userSelect: 'text',
                     WebkitUserSelect: 'text',
                     width: 'fit-content',
@@ -88,7 +76,7 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                         userSelect: 'text',
                         WebkitUserSelect: 'text',
                     }}>
-                        <a 
+                        <a
                             href='mailto:inbox@unit4.io'
                             style={{
                                 textDecoration: 'none',

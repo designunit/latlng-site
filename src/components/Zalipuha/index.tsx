@@ -44,7 +44,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
     const ctx = refCanvas.current?.getContext('2d')
     const refPointCanvas = useRef(null)
     const pointCtx = refPointCanvas.current?.getContext('2d')
-    
+
     useEffect(() => {
         isMobile
             ? setWidth(Math.max(window.innerHeight, window.innerWidth))
@@ -83,12 +83,12 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         const path = geoPath(projection, ctx)
 
         ctx.clearRect(0, 0, width, height)
-        
-        const r = projection.rotate() // front layer rotation 
+
+        const r = projection.rotate() // front layer rotation
 
         // project as back layer
         // @ts-ignore
-        projection.reflectX(true).rotate([r[0] + 180 , -r[1], -r[2]])
+        projection.reflectX(true).rotate([r[0] + 180, -r[1], -r[2]])
 
         path.pointRadius(3)
 
@@ -108,11 +108,11 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         // project as front layer
         // @ts-ignore
         projection.reflectX(false).rotate(r)
-        
+
         // simple circle
         ctx.beginPath()
         path({type: 'Sphere'})
-        ctx.lineWidth = 1 
+        ctx.lineWidth = 1
         ctx.strokeStyle = `${colorSecondary}88`
         ctx.stroke()
 
@@ -138,7 +138,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
         // draw front wireframe
         ctx.beginPath()
         path(wirframe)
-        ctx.lineWidth = 1 
+        ctx.lineWidth = 1
         ctx.strokeStyle = `${colorSecondary}88`
         ctx.stroke()
 
@@ -183,44 +183,44 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
             pointCtx.lineTo(...cursor)
             pointCtx.strokeStyle = `${colorPrimary}88`
             pointCtx.stroke()
-    
+
             // big rect
             pointCtx.fillStyle = `${colorPrimary}44`
             pointCtx.fillRect(...cursor, 200, -60)
             pointCtx.strokeStyle = `${colorPrimary}88`
             pointCtx.strokeRect(...cursor, 200, -60)
-    
+
             // avatar frame
             cursor = [cursor[0] + 5 + 50, cursor[1] - 5 - 25]
             pointCtx.moveTo(...cursor)
             pointCtx.arc(cursor[0] - 25, cursor[1], 25, 0, Math.PI*2)
             pointCtx.strokeStyle = `${colorPrimary}88`
             pointCtx.stroke()
-    
+
             cursor = [cursor[0] - 50, cursor[1] + 25]
-    
+
             // text rects
             cursor = [cursor[0] + 55, cursor[1] - 50]
             pointCtx.fillRect(...cursor, 40, 10)
-    
+
             cursor = [cursor[0] + 45, cursor[1] - 0]
             pointCtx.fillRect(...cursor, 90, 10)
-    
+
             // text second row
             cursor = [cursor[0] - 45, cursor[1] + 13]
             pointCtx.fillRect(...cursor, 35/2, 5)
             cursor = [cursor[0] + 35/2 + 5, cursor[1]]
             pointCtx.fillRect(...cursor, 35/2, 5)
-    
+
             // text long rows
-            cursor = [cursor[0] - 35/2 - 5, cursor[1] + 8]
+            cursor = [cursor[0] - 35 / 2 - 5, cursor[1] + 8]
             for (let i = 0; i < 4; i++) {
                 pointCtx.fillRect(...cursor, 135, 5)
-                cursor = [cursor[0], cursor[1] + 8]                        
+                cursor = [cursor[0], cursor[1] + 8]
             }
         }
     }, [pointCtx])
-    
+
     return (
         <div style={{
             position: 'absolute',
@@ -230,9 +230,9 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
             maxWidth: '80%', // 100 - left
         }}>
             {catPaths.map((item, index) => ( // render images to assign refCats
-                <img 
+                <img
                     key={index}
-                    ref={refCats.current[index]} 
+                    ref={refCats.current[index]}
                     src={item}
                     style={{ display: 'none' }}
                 />
@@ -247,7 +247,7 @@ const Zalipuha: React.FC<ZalipuhaProps> = memo(({ mouse, rotation, setRotation }
                     display: 'none',
                 }}
             />
-            <canvas 
+            <canvas
                 ref={refCanvas}
                 width={width * devicePixelRatio}
                 height={height * devicePixelRatio}
