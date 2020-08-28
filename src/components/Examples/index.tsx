@@ -36,7 +36,7 @@ export const Examples: React.FC<ExamplesProps> = props => {
                         marginBottom: '5%',
                     }}
                 >
-                    <Glitch image={`url(${imageSrc}) `}
+                    <Glitch image={imageSrc}
                         style={{
                             height: '250px',
                         }}
