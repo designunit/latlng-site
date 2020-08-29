@@ -1,6 +1,7 @@
-import { geoOrthographic, geoPath, geoGraticule10, GeoPermissibleObjects, GeoGeometryObjects } from 'd3-geo'
+import { geoPath } from 'd3-geo'
 import { useRef, useEffect, useState, memo, useMemo } from 'react'
-import { useRafLoop, createBreakpoint } from 'react-use'
+import { createBreakpoint } from 'react-use'
+import { useGeoshere } from './lib'
 
 export type GeoMarker = {
     location: [number, number],
@@ -19,6 +20,8 @@ const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setRotation, ...props }) => {
     const catPaths = props.points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(catPaths.map(() => useRef(null))) // ref[]
+
+    const [projection, wireframe] = useGeoshere()
 
     const points = useMemo(
         () => props.points.map(x => x.location),
@@ -50,11 +53,8 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
         setCanvasScaledFlag(true)
     }, [ctx, pointCtx, width, canvasScaledFlag])
 
-    const projection = geoOrthographic()
-    const wirframe = geoGraticule10()
-
     useEffect(() => {
-        projection.fitExtent([[0, 0], [width, height]], wirframe)
+        projection.fitExtent([[0, 0], [width, height]], wireframe)
     }, [projection, width])
 
     const colorSecondary = '#BB86FC'
@@ -81,7 +81,7 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
 
         // draw back wireframe
         ctx.beginPath()
-        path(wirframe)
+        path(wireframe)
         ctx.lineWidth = .5
         ctx.strokeStyle = `${colorSecondary}44`
         ctx.stroke()
@@ -124,7 +124,7 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
 
         // draw front wireframe
         ctx.beginPath()
-        path(wirframe)
+        path(wireframe)
         ctx.lineWidth = 1
         ctx.strokeStyle = `${colorSecondary}88`
         ctx.stroke()
