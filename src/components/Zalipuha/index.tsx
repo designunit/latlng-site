@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import { useEffect, useState, forwardRef, MutableRefObject } from 'react'
+import { GeoMarker } from './Geosphere'
 
 const Geosphere = dynamic(import('./Geosphere').then(m => m.Geosphere), {
     ssr: false,
@@ -14,7 +15,7 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
     const [rotation, setRotation] = useState(0)
     const [mouse, setMouse] = useState(null)
     const mouseSpeed = .1
-    const points = [
+    const points: GeoMarker[] = [
         { location: [-12.471514065069812, 29.96032823460071], imageSrc: '/static/cats/1.jpg' },
         { location: [-66.14344941751239, -33.78218055874478], imageSrc: '/static/cats/2.jpg' },
         { location: [-163.20801211427406, 75.19405530640374], imageSrc: '/static/cats/3.jpg' },
@@ -36,6 +37,8 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
         { location: [-92.40387452005182, 20.1722585434017], imageSrc: '/static/cats/3.jpg' },
         { location: [154.88855888496272, -45.3358210847797], imageSrc: '/static/cats/4.jpg' },
     ]
+
+    // const [stop, start, isActive] = useRafLoop(time => {
 
     useEffect(() => {
         console.log('my target is ', ref.current)

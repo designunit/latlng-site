@@ -1,12 +1,17 @@
-import { geoOrthographic, geoPath, geoGraticule10, GeoPermissibleObjects } from 'd3-geo'
+import { geoOrthographic, geoPath, geoGraticule10, GeoPermissibleObjects, GeoGeometryObjects } from 'd3-geo'
 import { useRef, useEffect, useState, memo, useMemo } from 'react'
 import { useRafLoop, createBreakpoint } from 'react-use'
 
-interface GeosphereProps {
+export type GeoMarker = {
+    location: [number, number],
+    imageSrc: string,
+}
+
+export type GeosphereProps = {
     mouse: number
     rotation: number
     setRotation: (rotation: number) => void
-    points: Array<{ location: [number, number], imageSrc: string }>
+    points: GeoMarker[]
 }
 
 const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
