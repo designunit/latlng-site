@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
 import { useEffect, useState, forwardRef, MutableRefObject } from 'react'
 import { GeoMarker } from './Geosphere'
+import { useRafLoop } from 'react-use'
 
 const Geosphere = dynamic(import('./Geosphere').then(m => m.Geosphere), {
     ssr: false,
@@ -13,7 +14,8 @@ type Ref = HTMLDivElement
 
 export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefObject<Ref>) => {
     const [rotation, setRotation] = useState(0)
-    const [mouse, setMouse] = useState(null)
+    const [velocity, setVelocity] = useState(0.25)
+    const [mouse, setMouse] = useState(false)
     const mouseSpeed = .1
     const points: GeoMarker[] = [
         { location: [-12.471514065069812, 29.96032823460071], imageSrc: '/static/cats/1.jpg' },
@@ -38,27 +40,48 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
         { location: [154.88855888496272, -45.3358210847797], imageSrc: '/static/cats/4.jpg' },
     ]
 
-    // const [stop, start, isActive] = useRafLoop(time => {
+    const [stop, start, isActive] = useRafLoop(time => {
+        setRotation(rotation + velocity)
+        setVelocity(v => {
+            // Stable velocity in no interaction state
+            const D = 0.05
+
+            // Default velocity dump
+            let m = 0.99
+
+            // Reverse negative velocity if it almost 0
+            if (v < 0 && v > -0.001) {
+                m = -1
+            }
+
+            // Speed up velocity if it less than D
+            if (v > 0 && v < D) {
+                m = 1.025
+            }
+
+            return v * m
+        })
+    })
 
     useEffect(() => {
         console.log('my target is ', ref.current)
         const target = ref.current
 
         const mouseDown = () => {
-            setMouse(0)
+            setMouse(true)
         }
 
         const mouseUp = () => {
-            setMouse(null)
+            setMouse(false)
         }
 
         const mouseMove = function (event: MouseEvent) {
             const eventDelta = event.movementX * mouseSpeed * devicePixelRatio
-            if (event.buttons === 1) {
-                setMouse(eventDelta)
-            } else {
-                setMouse(null)
+            if (event.buttons !== 1) {
+                return
             }
+
+            setVelocity(eventDelta)
         }
 
         target.addEventListener('mousedown', mouseDown)
@@ -76,7 +99,7 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
 
     return (
         <Geosphere
-            mouse={mouse}
+            mouse={0}
             rotation={rotation}
             setRotation={setRotation}
             points={points}
