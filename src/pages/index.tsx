@@ -1,5 +1,5 @@
 import { NextPage, GetStaticProps } from 'next'
-import { useRef, useState, useCallback, MouseEventHandler } from 'react'
+import { useRef, useCallback, MouseEventHandler, useEffect, RefObject } from 'react'
 import { Examples } from '../components/Examples'
 import Hero from '../components/Hero'
 import About from '../components/About'
@@ -8,6 +8,7 @@ import { Meta, IMeta } from '../components/Meta'
 import { GalleryItem } from '@/app/types'
 import { Zalipuha } from '@/components/Zalipuha'
 import { GeoMarker } from '@/components/Zalipuha/Geosphere'
+import { setCursor } from '@/store'
 
 type Props = {
     meta: IMeta
@@ -17,10 +18,9 @@ type Props = {
 
 const Index: NextPage<Props> = props => {
     const mouseTargetRef = useRef<HTMLDivElement>(null)
-    const [mousePos, setMousePos] = useState<[number, number]>([0, 0])
 
     const onMouseMove = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
-        setMousePos([event.clientX, event.clientY])
+        setCursor([event.clientX, event.clientY])
     }, [])
 
     return (
@@ -56,11 +56,7 @@ const Index: NextPage<Props> = props => {
                         WebkitUserSelect: 'none',
                     }}
                 >
-                    <Hero
-                        mouse={0}
-                        rotation={0}
-                        mousePos={mousePos}
-                    />
+                    <Hero />
                     <span id='about' />
                     <About />
                 </div>

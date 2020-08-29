@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic'
-import { forwardRef, MutableRefObject } from 'react'
+import { forwardRef, MutableRefObject, useEffect } from 'react'
 import { GeoMarker } from './Geosphere'
 import { useSpeedCurve, useMouseMove } from './lib'
+import { setSpeed, setAngle } from '@/store'
 
 const Geosphere = dynamic(import('./Geosphere').then(m => m.Geosphere), {
     ssr: false,
@@ -14,11 +15,16 @@ interface ZalipuhaProps {
 type Ref = HTMLDivElement
 
 export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefObject<Ref>) => {
-    const [rotation, , , setAcceleration] = useSpeedCurve({
+    const [rotation, , acceleration, setAcceleration] = useSpeedCurve({
         initialAcceleration: 0.25,
         stableAcceleration: 0.05,
         dump: 0.99,
         startingDump: 1.025,
+    })
+
+    useEffect(() => {
+        setSpeed(acceleration)
+        setAngle(rotation)
     })
 
     useMouseMove(ref.current, event => {
