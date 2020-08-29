@@ -99,9 +99,7 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
 
     return (
         <Geosphere
-            mouse={0}
             rotation={rotation}
-            setRotation={setRotation}
             points={points}
         />
     )

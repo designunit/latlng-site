@@ -9,15 +9,13 @@ export type GeoMarker = {
 }
 
 export type GeosphereProps = {
-    mouse: number
     rotation: number
-    setRotation: (rotation: number) => void
     points: GeoMarker[]
 }
 
 const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
-export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setRotation, ...props }) => {
+export const Geosphere: React.FC<GeosphereProps> = memo(({ rotation, ...props }) => {
     const catPaths = props.points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(catPaths.map(() => useRef(null))) // ref[]
 
@@ -44,6 +42,8 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
         height = width
     }, [width, isMobile, window.innerWidth])
 
+    // not quite sure what that block does
+    // todo: remove it later after main refactoring
     const [canvasScaledFlag, setCanvasScaledFlag] = useState(false)
     useEffect(() => {
         if (canvasScaledFlag) {
