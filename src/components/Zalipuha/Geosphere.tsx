@@ -1,40 +1,24 @@
 import { geoOrthographic, geoPath, geoGraticule10, GeoPermissibleObjects } from 'd3-geo'
-import { useRef, useEffect, useState, memo } from 'react'
+import { useRef, useEffect, useState, memo, useMemo } from 'react'
 import { useRafLoop, createBreakpoint } from 'react-use'
 
 interface GeosphereProps {
     mouse: number
     rotation: number
     setRotation: (rotation: number) => void
+    points: Array<{ location: [number, number], imageSrc: string }>
 }
 
 const breakpoint = createBreakpoint({ mobile: 0, desktop: 1025 })
 
-export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setRotation }) => {
-    const points = [
-        [-12.471514065069812, 29.96032823460071],
-        [-66.14344941751239, -33.78218055874478],
-        [-163.20801211427406, 75.19405530640374],
-        [-60.1468537118777, 31.68887138113911],
-        [98.919861719307818, 34.327280220478983],
-        [19.505171745122794, 68.34049434153212],
-        [112.2117919210032, -28.50740286402985],
-        [-180.72891972601244, 18.236456875202094],
-        [-144.70567276094468, 42.757649149605925],
-        [16.677754391339704, 23.15973160196448],
-        [123.39126029072082, 23.943962457354814],
-        [34.53401051124965, -35.26060695811529],
-        [-54.89336410836961, 7.03808627812122],
-        [167.93694930066998, -7.75296599062257],
-        [50.24396406944393, 30.558119182431568],
-        [-136.37355654473666, -18.713657944900017],
-        [88.72475330521985, 10.451665787038394],
-        [72.42099035441424, -29.84503313630067],
-        [-92.40387452005182, 20.1722585434017],
-        [154.88855888496272, -45.3358210847797],
-    ].sort((a, b) => a[0] - b[0])
-    const catPaths = points.map((x, i) => `/static/cats/${i % 8}.jpg`)
+export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setRotation, ...props }) => {
+    const catPaths = props.points.map((x, i) => `/static/cats/${i % 8}.jpg`)
     const refCats = useRef(catPaths.map(() => useRef(null))) // ref[]
+
+    const points = useMemo(
+        () => props.points.map(x => x.location),
+        [props.points],
+    )
 
     const [width, setWidth] = useState(window.innerHeight)
     let height = width
