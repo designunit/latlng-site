@@ -6,12 +6,15 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
+        "analyze": "ANALYZE=true npm run build",
         "format:check": "prettier --check",
         "format": "prettier --write"
     },
     "dependencies": {
         "classcat": "^4.1.0",
         "d3-geo": "^2.0.1",
+        "effector": "^21.2.2",
+        "effector-react": "^21.0.4",
         "next": "9.5.2",
         "numeral": "^2.0.6",
         "react": "16.13.1",
@@ -19,6 +22,7 @@
         "react-use": "^15.3.3"
     },
     "devDependencies": {
+        "@next/bundle-analyzer": "^9.5.2",
         "@types/node": "^13.13.5",
         "@types/numeral": "0.0.28",
         "@types/react": "^16.9.34",

@@ -6,14 +6,10 @@ import { useMobile } from "@/hooks/useMobile"
 import { ZalipuhaStat } from "../ZalipuhaStat"
 
 interface HeroProps {
-    mouse: number
-    rotation: number
-    mousePos: [number, number]
 }
 
-const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
+const Hero: React.FC<HeroProps> = () => {
     const isMobile = useMobile()
-    const mp = mousePos ?? [0, 0]
 
     return (
         <Section style={{
@@ -35,10 +31,6 @@ const Hero: React.FC<HeroProps> = ({ mouse, rotation, mousePos }) => {
                     }}>
                         <ZalipuhaStat
                             formatPattern={'0000.0000'}
-                            rotation={rotation}
-                            mouseSpeed={mouse}
-                            mouseX={mp[0]}
-                            mouseY={mp[1]}
                         />
                     </div>
                 </>
