@@ -60,10 +60,10 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
     const colorSecondary = '#BB86FC'
     const colorPrimary = '#03DAC5'
 
-    const [stop, start, isActive] = useRafLoop(time => {
-        mouse === null
-            ? setRotation(rotation + .05 % 360)
-            : setRotation(rotation + mouse)
+    useEffect(() => {
+        if (!ctx) {
+            return
+        }
 
         projection.rotate([rotation, -33, 15]) // animate + rotate
 
@@ -155,7 +155,7 @@ export const Geosphere: React.FC<GeosphereProps> = memo(({ mouse, rotation, setR
             ctx.drawImage(refCats.current[index].current, ...cursor, 50, -50)
         })
         ctx.restore()
-    })
+    }, [rotation])
 
     // draw squares and lines in offscreen canvas
     useEffect(() => {
