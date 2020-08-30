@@ -61,10 +61,24 @@ export function useMouseMove(target: HTMLElement, callback: (event: MouseEvent) 
             return
         }
 
-        target.addEventListener('mousemove', callback)
+        const down = () => {
+            console.log('down')
+            target.addEventListener('mousemove', callback)
+        }
+
+        const up = () => {
+            console.log('up')
+            target.removeEventListener('mousemove', callback)
+        }
+
+        target.addEventListener('mousedown', down)
+        target.addEventListener('mouseup', up)
+        target.addEventListener('mouseleave', up)
 
         return () => {
-            target.removeEventListener('mousemove', callback)
+            target.removeEventListener('mousedown', down)
+            target.removeEventListener('mouseup', up)
+            target.removeEventListener('mouseleave', up)
         }
     }, [target])
 }
