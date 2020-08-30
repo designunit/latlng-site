@@ -1,5 +1,5 @@
 import { geoOrthographic, geoGraticule10, GeoProjection } from 'd3-geo'
-import { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react'
+import { useRef, useState, Dispatch, SetStateAction } from 'react'
 import { useRafLoop } from 'react-use'
 
 export function useGeoshere(): [GeoProjection, GeoJSON.MultiLineString] {
@@ -53,32 +53,4 @@ export function useSpeedCurve(options: UseSpeedCurveOptions): UseSpeedCurveResul
     })
 
     return [velocity, setVelocity, acceleration, setAcceleration]
-}
-
-export function useMouseMove(target: HTMLElement, callback: (event: MouseEvent) => void) {
-    useEffect(() => {
-        if (!target) {
-            return
-        }
-
-        const down = () => {
-            console.log('down')
-            target.addEventListener('mousemove', callback)
-        }
-
-        const up = () => {
-            console.log('up')
-            target.removeEventListener('mousemove', callback)
-        }
-
-        target.addEventListener('mousedown', down)
-        target.addEventListener('mouseup', up)
-        target.addEventListener('mouseleave', up)
-
-        return () => {
-            target.removeEventListener('mousedown', down)
-            target.removeEventListener('mouseup', up)
-            target.removeEventListener('mouseleave', up)
-        }
-    }, [target])
 }

@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic'
 import { forwardRef, MutableRefObject, useEffect } from 'react'
 import { GeoMarker } from './Geosphere'
-import { useSpeedCurve, useMouseMove } from './lib'
+import { useGrabMouse } from '@/hooks/useGrabMouse'
+import { useSpeedCurve } from './lib'
 import { setSpeed, setAngle } from '@/store'
 
 const Geosphere = dynamic(import('./Geosphere').then(m => m.Geosphere), {
@@ -27,7 +28,7 @@ export const Zalipuha = forwardRef<Ref, ZalipuhaProps>((props, ref: MutableRefOb
         setAngle(rotation)
     })
 
-    useMouseMove(ref.current, event => {
+    useGrabMouse(ref.current, event => {
         const mouseSpeed = 0.1
         const eventDelta = event.movementX * mouseSpeed * devicePixelRatio
         if (event.buttons !== 1) {
