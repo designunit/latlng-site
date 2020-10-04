@@ -1,24 +1,15 @@
-import { useMobile } from "@/hooks/useMobile"
+import s from './title.module.css'
 
 type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>
 
-export const Title: React.FC<Props> = props => {
-    const isMobile = useMobile()
+export const Title: React.FC<Props> = props => (
+    <h1 {...props} className={s.title}>
+        <span>
+            LATL.NG<br />
 
-    return (
-        <h1 {...props}>
-            <span style={{
-                userSelect: 'text',
-                WebkitUserSelect: 'text',
-            }}>
-                LATL.NG<br />
-
-                <span style={{
-                    fontSize: isMobile ? '26px' : null
-                }}>
-                    cloud geoinformation system
+            <span className={s.subtitle}>
+                cloud geoinformation system
                 </span>
-            </span>
-        </h1>
-    )
-}
+        </span>
+    </h1>
+)
