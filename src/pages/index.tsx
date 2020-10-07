@@ -71,15 +71,15 @@ export const getStaticProps: GetStaticProps<Props> = async ctx => {
     const meta: IMeta = {
         title: 'LATL.NG',
         description: 'cloud geoinformation system',
-        image: 'https://latlng-site.now.sh/static/latlng.jpg',
-        imageWidth: 50,
-        imageHeight: 50,
+        image: 'https://latl.ng/static/latlng.jpg',
+        imageWidth: 2628,
+        imageHeight: 1559,
 
-        url: null, // 'https://берегурай.рф/',
+        url: 'https://latl.ng/',
         siteName: 'LATL.NG',
         locale: 'ru_RU',
         type: 'website',
-        domain: null, // 'берегурай.рф',
+        domain: 'latl.ng',
 
         twitterCard: 'summary_large_image',
         twitterSite: '@',
