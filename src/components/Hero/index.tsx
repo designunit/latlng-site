@@ -4,6 +4,7 @@ import { Section } from "../Section"
 import { Title } from "./Title"
 import { useMobile } from "@/hooks/useMobile"
 import { ZalipuhaStat } from "../ZalipuhaStat"
+import s from './index.module.css'
 
 interface HeroProps {
 }
@@ -21,44 +22,41 @@ const Hero: React.FC<HeroProps> = () => {
         }}>
             <Title />
 
-            {isMobile ? null : (
-                <>
-                    <div style={{
-                        flex: '1 0 50%',
-                        alignSelf: 'flex-end',
-                        alignItems: 'end',
-                        textAlign: 'end',
-                    }}>
-                        <ZalipuhaStat
-                            formatPattern={'0000.0000'}
-                        />
-                    </div>
-                </>
+            {!isMobile && (
+                <div style={{
+                    flex: '1 0 50%',
+                    alignSelf: 'flex-end',
+                    alignItems: 'end',
+                    textAlign: 'end',
+                }}>
+                    <ZalipuhaStat
+                        formatPattern={'0000.0000'}
+                    />
+                </div>
             )}
+
             <div style={{
                 flex: '1 0 50%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'start',
+                userSelect: 'text',
+                WebkitUserSelect: 'text',
+                width: 'fit-content',
             }}>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'start',
-                    userSelect: 'text',
-                    WebkitUserSelect: 'text',
-                    width: 'fit-content',
-                }}>
-                    <Link url='#about'>
-                        <LinkText>
-                            what's latl.ng?
-                        </LinkText>
-                    </Link>
-                    <Link url='#examples'>
-                        <LinkText>
-                            work examples
-                        </LinkText>
-                    </Link>
-                </div>
+                <Link url='#about'>
+                    <LinkText>
+                        what's latl.ng?
+                    </LinkText>
+                </Link>
+                <Link url='#examples'>
+                    <LinkText>
+                        work examples
+                    </LinkText>
+                </Link>
             </div>
-            {isMobile ? null : (
+
+            {!isMobile && (
                 <div style={{
                     flex: '1 0 50%',
                     alignSelf: 'flex-end',
