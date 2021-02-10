@@ -1,5 +1,5 @@
 import { NextPage, GetStaticProps } from 'next'
-import { useRef, useCallback, MouseEventHandler, useEffect, RefObject } from 'react'
+import { useRef, useCallback, MouseEventHandler, useEffect, RefObject, createElement } from 'react'
 import { Examples } from '../components/Examples'
 import Hero from '../components/Hero'
 import About from '../components/About'
@@ -9,12 +9,20 @@ import { GalleryItem } from '@/app/types'
 import { Zalipuha } from '@/components/Zalipuha'
 import { GeoMarker } from '@/components/Zalipuha/Geosphere'
 import { setCursor } from '@/store'
+import markdown from 'markdown-it'
 
 type Props = {
     meta: IMeta
     examples: GalleryItem[]
     points: GeoMarker[]
+    about: string
 }
+
+const Html: React.FC<{ children: string, as: string }> = props => createElement(props.as, {
+    dangerouslySetInnerHTML: {
+        __html: props.children,
+    },
+})
 
 const Index: NextPage<Props> = props => {
     const mouseTargetRef = useRef<HTMLDivElement>(null)
@@ -58,9 +66,14 @@ const Index: NextPage<Props> = props => {
                 >
                     <Hero />
                     <span id='about' />
-                    <About />
+                    <About>
+                        <Html as={'article'}>
+                            {props.about}
+                        </Html>
+                    </About>
                 </div>
-                <span id='examples' />
+
+                <h2 id={'examples'}>maps</h2>
                 <Examples items={props.examples} />
             </main>
         </>
@@ -147,11 +160,30 @@ export const getStaticProps: GetStaticProps<Props> = async ctx => {
         { location: [154.88855888496272, -45.3358210847797], imageSrc: '/static/cats/4.jpg' },
     ]
 
+    const md = markdown()
+    const about = md.render(`
+## about
+инструмент совместной коллективной работы с геопривязанной информацией.
+
+позволяет делать авторские тематические и пользовательские карты с различными вариантами оформления,
+вносить геопривязанную информацию различных форматов (тексты, фото, аудиозаписи, сканы документов)
+организованными группами исследователей, волонтеров, неорганизованными индивидуалами,
+собирать геопривязанные ценности нематериальной культуры,
+выводить собранную информацию в виде аналитических карт и графиков.
+
+различные функции сервиса протестированы в ряде исследовательских проектов городской среды:
+исследования стационарных активностей по методу яна гейла, сбор отзывов и пожеланий горожан по развитию города,
+социологическое наблюдение использования открытых городских пространств.
+
+по деталям сервиса не стесняйтесь обращаться [inbox@unit4.io](mailto:inbox@unit.io)
+    `)
+
     return {
         props: {
             meta,
             examples,
             points,
+            about,
         }
     }
 }
