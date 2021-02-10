@@ -20,6 +20,7 @@
         "numeral": "^2.0.6",
         "react": "16.13.1",
         "react-dom": "16.13.1",
+        "react-inlinesvg": "^2.2.2",
         "react-use": "^15.3.3"
     },
     "devDependencies": {

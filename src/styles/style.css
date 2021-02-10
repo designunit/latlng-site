@@ -14,6 +14,7 @@
 
 html,
 body {
+    height: 100%;
     padding: 0;
     margin: 0;
 
@@ -51,4 +52,91 @@ h2 {
     margin: 0px;
 
     color: var(--color-primary);
+}
+
+article a {
+    text-decoration-line: underline;
+    color: var(--color-primary);
+}
+
+article a:hover {
+    text-decoration-line: line-through;
+    color: var(--color-hover);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+/* Modify nextjs container */
+#__next {
+    height: 100%;
+}
+
+/* Modify ant styles */
+
+.app-drawer .ant-drawer-header {
+    background-color: var(--background-color);
+}
+
+.app-drawer .ant-drawer-wrapper-body {
+    background-color: var(--background-color);
+}
+
+.ant-form-item {
+    margin-bottom: 18px;
+}
+
+.ant-form-item:last-child {
+    margin-bottom: 0;
+}
+
+.ant-form-vertical .ant-form-item {
+    padding-bottom: 0;
+}
+
+.ant-form-vertical .ant-form-item-label {
+    padding-bottom: 4px;
+}
+
+.ant-list-item {
+    align-items: flex-start;
+}
+.ant-list-item-action {
+    margin-left: 5px;
+}
+.ant-list-item-action > li {
+    padding: 0;
+}
+
+.ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+    padding: 4px 0px 16px 16px;
+}
+
+.ant-collapse-borderless {
+    background-color: var(--background-color);
+}
+
+/* Override Ant Popover for color picker */
+.ant-popover-inner-content {
+    padding: 16px;
+}
+
+/* Override react sketch color picker style */
+.sketch-picker {
+    box-shadow: none !important;
+}
+
+.rc-menu .rc-menu-submenu-title .anticon,
+.rc-menu .rc-menu-item .anticon {
+    margin-right: 0px !important;
+}
+
+/* Root styles */
+:root {
+    --background-color: white;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        /* --background-color: black; */
+    }
 }
