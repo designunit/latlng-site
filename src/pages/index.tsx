@@ -221,8 +221,7 @@ const Page: NextPage<IProps> = props => {
                         <li><a href={'https://app.latl.ng/map/nyagan'}>Нягань</a></li>
                         <li><a href={'https://map.latl.ng/pitkaranta'}>Питкяранта</a></li>
                         <li><a href={'https://map.latl.ng/bereguray'}>Урай</a></li>
-                        <li><a href={'https://map.latl.ng/DGEAU544U09EDYGJ'}>Дербент</a></li>
-                        <li><a href={'https://map.latl.ng/FGF6683DZD8R4GE4'}>Мурманск</a></li>
+                        <li><a href={'https://map.latl.ng/SOWQ5LGD4V7GCI3L'}>Волхов</a></li>
                     </ul>
                 </div>
 
