@@ -1,159 +1,243 @@
-import { NextPage, GetStaticProps } from 'next'
-import { useRef, useCallback, MouseEventHandler, useEffect, RefObject } from 'react'
-import { Examples } from '../components/Examples'
-import Hero from '../components/Hero'
-import About from '../components/About'
-import Head from 'next/head'
-import { Meta, IMeta } from '../components/Meta'
-import { GalleryItem } from '@/app/types'
-import { Zalipuha } from '@/components/Zalipuha'
-import { GeoMarker } from '@/components/Zalipuha/Geosphere'
-import { setCursor } from '@/store'
+import { NextPage } from 'next'
+import SVG from 'react-inlinesvg'
+import { useRaf } from 'react-use'
+import { useCallback, useState } from 'react'
 
-type Props = {
-    meta: IMeta
-    examples: GalleryItem[]
-    points: GeoMarker[]
-}
+const CreatorLogo: React.FC<{
+    color: string,
+    highlightColor: string,
+    onLoad: () => void,
+}> = props => {
+    const [fill, setFill] = useState(props.color)
 
-const Index: NextPage<Props> = props => {
-    const mouseTargetRef = useRef<HTMLDivElement>(null)
+    const onOver = useCallback(() => {
+        setFill(props.highlightColor)
+    }, [])
 
-    const onMouseMove = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
-        setCursor([event.clientX, event.clientY])
+    const onOut = useCallback(() => {
+        setFill(props.color)
     }, [])
 
     return (
-        <>
-            <Head>
-                <title>LATL.NG</title>
-                <Meta meta={props.meta} />
-            </Head>
-            <Zalipuha
-                ref={mouseTargetRef}
-                points={props.points}
+        <a
+            href={'https://unit4.io'}
+            onMouseOver={onOver}
+            onMouseOut={onOut}
+        >
+            <SVG
+                style={{
+                    width: '250px',
+                    fill,
+                    transition: 'fill 250ms',
+                }}
+                onLoad={props.onLoad}
+                src={'/static/u4.svg'}
             />
-            <main style={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>
-                {/* container for zalipuha interaction  */}
-                <div
-                    ref={mouseTargetRef}
-                    onMouseMove={onMouseMove}
-                    style={{
-                        width: '100%',
-                        height: '100%',
-
-                        position: 'relative',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                    }}
-                >
-                    <Hero />
-                    <span id='about' />
-                    <About />
-                </div>
-                <span id='examples' />
-                <Examples items={props.examples} />
-            </main>
-        </>
+        </a>
     )
 }
 
-export const getStaticProps: GetStaticProps<Props> = async ctx => {
-    const meta: IMeta = {
-        title: 'LATL.NG',
-        description: 'cloud geoinformation system',
-        image: 'https://latl.ng/static/latlng.jpg',
-        imageWidth: 2628,
-        imageHeight: 1559,
+const Latlng: React.FC = props => {
+    const n = useRaf(1000000000, 0)
 
-        url: 'https://latl.ng/',
-        siteName: 'LATL.NG',
-        locale: 'ru_RU',
-        type: 'website',
-        domain: 'latl.ng',
+    const s = 5000000
+    const r = 5
+    const x = Math.cos(n * s) * r
+    const y = Math.sin(n * s) * r
 
-        twitterCard: 'summary_large_image',
-        twitterSite: '@',
-        twitterCreator: '@tmshv',
-    }
+    return (
+        <div>
+            <style jsx>{`
+                div {
+                    position: relative;
+                }
 
-    const examples = [
-        {
-            imageSrc: '/static/maps/uray.jpg',
-            label: '#берегурай',
-            href: 'https://app.latl.ng/map/bereguray',
-        },
-        {
-            imageSrc: '/static/maps/nyagan.jpg',
-            label: 'Nyagan',
-            href: 'https://app.latl.ng/map/nyagan',
-        },
-        {
-            imageSrc: '/static/maps/oymyakon.jpg',
-            label: 'Oymyakon',
-            href: 'https://oymyakon.unit4.io',
-        },
-        {
-            imageSrc: '/static/maps/ohta.jpg',
-            label: 'Ohta reasearch',
-            href: 'https://app.latl.ng/map/55PO6VNLVJQ8HIQ4'
-        },
-        {
-            imageSrc: '/static/maps/pitkaranta.jpg',
-            label: 'Pitkaranta',
-            href: 'https://app.latl.ng/map/pitkaranta',
-        },
-        {
-            imageSrc: '/static/maps/uray-research.jpg',
-            label: 'Uray reasearch',
-            href: 'https://uray.unit4.io/map',
-        },
-        {
-            imageSrc: '/static/maps/pitkaranta-research.jpg',
-            label: 'Pitkaranta research',
-            href: 'https://app.latl.ng/map/ID0OT642D8TRHKGP',
-        },
-    ]
+                h1 {
+                    font-size: 20rem;
+                    line-height: 25rem;
 
-    const points: GeoMarker[] = [
-        { location: [-12.471514065069812, 29.96032823460071], imageSrc: '/static/cats/1.jpg' },
-        { location: [-66.14344941751239, -33.78218055874478], imageSrc: '/static/cats/2.jpg' },
-        { location: [-163.20801211427406, 75.19405530640374], imageSrc: '/static/cats/3.jpg' },
-        { location: [-60.1468537118777, 31.68887138113911], imageSrc: '/static/cats/4.jpg' },
-        { location: [98.919861719307818, 34.327280220478983], imageSrc: '/static/cats/5.jpg' },
-        { location: [19.505171745122794, 68.34049434153212], imageSrc: '/static/cats/6.jpg' },
-        { location: [112.2117919210032, -28.50740286402985], imageSrc: '/static/cats/7.jpg' },
-        { location: [-180.72891972601244, 18.236456875202094], imageSrc: '/static/cats/8.jpg' },
-        { location: [-144.70567276094468, 42.757649149605925], imageSrc: '/static/cats/1.jpg' },
-        { location: [16.677754391339704, 23.15973160196448], imageSrc: '/static/cats/2.jpg' },
-        { location: [123.39126029072082, 23.943962457354814], imageSrc: '/static/cats/3.jpg' },
-        { location: [34.53401051124965, -35.26060695811529], imageSrc: '/static/cats/4.jpg' },
-        { location: [-54.89336410836961, 7.03808627812122], imageSrc: '/static/cats/5.jpg' },
-        { location: [167.93694930066998, -7.75296599062257], imageSrc: '/static/cats/6.jpg' },
-        { location: [50.24396406944393, 30.558119182431568], imageSrc: '/static/cats/7.jpg' },
-        { location: [-136.37355654473666, -18.713657944900017], imageSrc: '/static/cats/8.jpg' },
-        { location: [88.72475330521985, 10.451665787038394], imageSrc: '/static/cats/1.jpg' },
-        { location: [72.42099035441424, -29.84503313630067], imageSrc: '/static/cats/2.jpg' },
-        { location: [-92.40387452005182, 20.1722585434017], imageSrc: '/static/cats/3.jpg' },
-        { location: [154.88855888496272, -45.3358210847797], imageSrc: '/static/cats/4.jpg' },
-    ]
+                    color: white;
+                    margin-bottom: 0;
+                    font-family: 'Roboto';
+                }
 
-    return {
-        props: {
-            meta,
-            examples,
-            points,
-        }
-    }
+                .layer {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                @media screen and (max-width: 1280px) {
+                    h1 {
+                        font-size: 15rem;
+                    }
+                }
+
+                @media screen and (max-width: 960px) {
+                    h1 {
+                        font-size: 10rem;
+                    }
+                }
+
+                @media screen and (max-width: 640px) {
+                    h1 {
+                        font-size: 7rem;
+                    }
+                }
+
+                @media screen and (max-width: 31.25em) {
+                    h1 {
+                        font-size: 4rem;
+                        line-height: 15rem;
+                    }
+                }
+           `}</style>
+
+            <h1>
+                <span
+                    className={'layer'}
+                    style={{
+                        color: '#ff0066',
+                        top: y,
+                    }}
+                >LATL.NG
+                </span>
+                <span
+                    className={'layer'}
+                    style={{
+                        color: '#00ff00',
+                        left: x,
+                    }}
+                >LATL.NG
+                </span>
+                <span
+                    style={{
+                        color: 'white',
+                        position: 'relative',
+                        zIndex: 1,
+                    }}
+                >LATL.NG
+                </span>
+            </h1>
+        </div>
+    )
 }
 
-export default Index
+interface IProps {
+}
+
+const Page: NextPage<IProps> = props => {
+    const [ready, setReady] = useState(false)
+    const onLoadLogo = useCallback(() => {
+        setReady(true)
+    }, [])
+
+    return (
+        <div className={'wrapper'}>
+            <style jsx>{`
+                .wrapper {
+                    width: 100%;
+                    height: 100%;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    font-family: 'Roboto';
+                    letter-spacing: 1px;
+                    color: white;
+                    background-color: black;
+                    font-size: 1.25rem;
+                }
+
+                .center {
+                    width: 90%;
+                    height: 100%;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .block {
+                    padding: 0 20px;
+                }
+
+                .unit {
+                    align-self: flex-end;
+                    padding: 0 20px 80px;
+                }
+
+                a {
+                    color: white;
+                }
+
+                a:hover {
+                    color: #e40e80;
+                }
+
+                ul {
+                    list-style: none;
+                    padding-left: 0;
+                }
+
+                @media screen and (max-width: 31.25em) {
+                    .block {
+                        padding: 0;
+                    }
+
+                    .unit {
+                        align-self: flex-start;
+                        padding: 0px 0px 10px;
+                    }
+                }
+           `}</style>
+
+            <main
+                className={'center'}
+            >
+                <div
+                    style={{
+                        alignSelf: 'flex-start',
+                    }}
+                >
+                    <Latlng />
+                </div>
+
+                <div
+                    className={'block'}
+                    style={{
+                        flex: 1,
+                        alignSelf: 'flex-start',
+                    }}
+                >
+                    <p>
+                    ОБЛАЧНАЯ ГЕОИНФОРМАЦИОННАЯ СИСТЕМА С ФИЧАМИ И ПЛЮШКАМИ
+                    </p>
+
+                    <ul>
+                        <li><a href={'https://map.latl.ng/SOWQ5LGD4V7GCI3L'}>Волхов</a></li>
+                        <li><a href={'https://map.latl.ng/pitkaranta'}>Питкяранта</a></li>
+                        <li><a href={'https://map.latl.ng/nyagan'}>Нягань</a></li>
+                        <li><a href={'https://map.latl.ng/bereguray'}>Урай</a></li>
+                    </ul>
+                </div>
+
+                <div
+                    className={'block unit'}
+                >
+                    <CreatorLogo
+                        color={'white'}
+                        highlightColor={'#e40e80'}
+                        onLoad={onLoadLogo}
+                    />
+                    <div><a href={'mailto:inbox@unit4.io'}>inbox@unit4.io</a></div>
+                </div>
+            </main>
+        </div>
+    )
+}
+
+export default Page
