@@ -1,4 +1,5 @@
-import { NextPage } from 'next'
+import Link from 'next/link'
+import { GetServerSideProps, NextPage } from 'next'
 import SVG from 'react-inlinesvg'
 import { useRaf } from 'react-use'
 import { useCallback, useState } from 'react'
@@ -124,7 +125,13 @@ const Latlng: React.FC = props => {
     )
 }
 
+type ProjectLink = {
+    label: string
+    href: string
+}
+
 interface IProps {
+    links: ProjectLink[]
 }
 
 const Page: NextPage<IProps> = props => {
@@ -214,14 +221,17 @@ const Page: NextPage<IProps> = props => {
                     }}
                 >
                     <p>
-                    ОБЛАЧНАЯ ГЕОИНФОРМАЦИОННАЯ СИСТЕМА С ФИЧАМИ И ПЛЮШКАМИ
+                        ОБЛАЧНАЯ ГЕОИНФОРМАЦИОННАЯ СИСТЕМА С ФИЧАМИ И ПЛЮШКАМИ
                     </p>
 
                     <ul>
-                        <li><a href={'https://map.latl.ng/SOWQ5LGD4V7GCI3L'}>Волхов</a></li>
-                        <li><a href={'https://map.latl.ng/pitkaranta'}>Питкяранта</a></li>
-                        <li><a href={'https://map.latl.ng/nyagan'}>Нягань</a></li>
-                        <li><a href={'https://map.latl.ng/bereguray'}>Урай</a></li>
+                        {props.links.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href}>
+                                    <a>{link.label}</a>
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
@@ -238,6 +248,36 @@ const Page: NextPage<IProps> = props => {
             </main>
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps<IProps> = async ctx => {
+    const res = await fetch('https://mesto.io/v1/source/609af407dd79a05fefd4e23a/features')
+    if (!res.ok) {
+        return {
+            props: {
+                links: []
+            }
+        }
+    }
+
+    const geojson = await res.json()
+    const fs: Array<any> = geojson.features
+    const links = fs
+        .sort((a, b) => {
+            const w1 = a.properties.weight ?? 0
+            const w2 = b.properties.weight ?? 0
+            return w2 - w1
+        })
+        .map(f => ({
+            label: f.properties.text,
+            href: f.properties.href,
+        }))
+
+    return {
+        props: {
+            links,
+        }
+    }
 }
 
 export default Page
