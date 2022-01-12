@@ -15,7 +15,7 @@
         "d3-geo": "^2.0.1",
         "effector": "^21.2.2",
         "effector-react": "^21.0.4",
-        "markdown-it": "^11.0.0",
+        "markdown-it": "^12.3.2",
         "next": "9.5.2",
         "numeral": "^2.0.6",
         "react": "16.13.1",
